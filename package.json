@@ -1,0 +1,13 @@
+{
+  "name": "Tea Drink System",
+  "version": "0.0.0",
+  "description": "Tea Drink System",
+  "main": "app.js",
+  "author": {
+    "name": ""
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1"
+  },
+  "eslintConfig": {}
+}

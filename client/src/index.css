@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 添加平滑滾動 */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 新增 spinner 樣式 */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
