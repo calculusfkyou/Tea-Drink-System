@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import { ProductSidebar } from '../components/products/ProductSidebar';
@@ -10,8 +11,6 @@ import { SpecialSection } from '../components/products/SpecialSection';
 import { MixSection } from '../components/products/MixSection';
 import { MenuSection } from '../components/products/MenuSection';
 
-// 引入自定義 Hook
-import { useScrollToAnchor } from '../hooks/useScrollToAnchor';
 
 // 飲品資料
 // 假設的飲品資料 (您需要替換成真實資料和圖片路徑)
@@ -59,6 +58,24 @@ const mixDrinksData = [
 ];
 
 export default function ProductsPage() {
+  const location = useLocation();
+
+  // 處理錨點滾動
+  useEffect(() => {
+    if (location.hash) {
+      // 延遲一下以確保頁面完全渲染
+      setTimeout(() => {
+        const id = location.hash.replace('#', '');
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [location]);
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Navbar />
