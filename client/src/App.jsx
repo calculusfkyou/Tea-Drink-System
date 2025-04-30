@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
-import ContactPage from './pages/Contact'; // 匯入 ContactPage
+import ContactPage from './pages/ContactPage'; // 匯入 ContactPage
 import ProductsPage from './pages/ProductsPage'; // 匯入 ProductsPage
 import NewsPage from './pages/api/NewsPage'; // 匯入 NewsPage
 import NewsDetailPage from './pages/api/NewsDetailPage'; // 匯入 NewsDetailPage
