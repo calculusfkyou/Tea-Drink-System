@@ -175,11 +175,8 @@ export const logout = (req, res) => {
   });
 };
 
-// 添加獲取當前用戶資訊的功能
 export const getMe = async (req, res) => {
   try {
-    // 此函數需要配合後面的身份驗證中間件使用
-    // req.user 是由驗證中間件提供的
     const user = await User.findByPk(req.user.id, {
       attributes: { exclude: ['password'] }
     });
@@ -191,18 +188,96 @@ export const getMe = async (req, res) => {
       });
     }
 
-    return res.status(200).json({
+    res.status(200).json({
       status: 'success',
-      data: {
-        user
-      }
+      data: user
     });
-
   } catch (error) {
-    console.error('獲取用戶信息錯誤:', error);
-    return res.status(500).json({
+    console.error('獲取用戶資料錯誤:', error);
+    res.status(500).json({
       status: 'error',
       message: '伺服器錯誤'
     });
   }
 };
+
+// 更新個人資料
+export const updateProfile = async (req, res) => {
+  try {
+    const { name, email, phone } = req.body;
+
+    // 檢查電子郵件是否已被使用
+    if (email && email !== req.user.email) {
+      const existingUser = await User.findOne({ where: { email } });
+      if (existingUser) {
+        return res.status(400).json({
+          status: 'fail',
+          message: '此電子郵件已被其他用戶使用'
+        });
+      }
+    }
+
+    // 更新用戶資料
+    await User.update(
+      { name, email, phone },
+      { where: { id: req.user.id } }
+    );
+
+    // 獲取更新後的用戶資料
+    const updatedUser = await User.findByPk(req.user.id, {
+      attributes: { exclude: ['password'] }
+    });
+
+    res.status(200).json({
+      status: 'success',
+      data: updatedUser
+    });
+  } catch (error) {
+    console.error('更新個人資料錯誤:', error);
+    res.status(500).json({
+      status: 'error',
+      message: '伺服器錯誤'
+    });
+  }
+};
+
+// 變更密碼
+export const changePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+
+    // 獲取用戶
+    const user = await User.findByPk(req.user.id);
+
+    // 驗證當前密碼
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) {
+      return res.status(400).json({
+        status: 'fail',
+        message: '當前密碼不正確'
+      });
+    }
+
+    // 加密新密碼
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    // 更新密碼
+    await User.update(
+      { password: hashedPassword },
+      { where: { id: req.user.id } }
+    );
+
+    res.status(200).json({
+      status: 'success',
+      message: '密碼已成功更新'
+    });
+  } catch (error) {
+    console.error('更新密碼錯誤:', error);
+    res.status(500).json({
+      status: 'error',
+      message: '伺服器錯誤'
+    });
+  }
+};
+

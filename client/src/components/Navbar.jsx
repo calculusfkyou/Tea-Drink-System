@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { NavbarUserMenu } from './NavbarUserMenu';
+import ShoppingCartIcon from './common/ShoppingCartIcon';
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // 手機選單狀態
@@ -37,8 +38,9 @@ export function Navbar() {
           <a href="/contact" className="text-[#4a5332] hover:text-[#3c4c31]">聯絡我們</a>
         </nav>
 
-        {/* 桌面版 用戶選單或註冊/登入 */}
+        {/* 桌面版 用戶選單、購物車圖示 */}
         <div className="hidden md:flex items-center space-x-4">
+          <ShoppingCartIcon />
           <NavbarUserMenu />
         </div>
 
@@ -123,14 +125,12 @@ function MobileUserMenu() {
 
   return (
     <>
-      <div className="px-3 py-2 text-base font-medium flex items-center">
+      <Link to="/profile" className="px-3 py-2 text-base font-medium flex items-center hover:bg-gray-100 rounded-md">
         <div className="h-8 w-8 rounded-full bg-[#4a5332] text-white flex items-center justify-center mr-2">
           {user.name.charAt(0).toUpperCase()}
         </div>
         <span className="text-gray-700">{user.name}</span>
-      </div>
-      <a href="/profile" className="text-gray-700 hover:bg-gray-100 block px-3 py-2 rounded-md text-base font-medium">個人資料</a>
-      <a href="/orders" className="text-gray-700 hover:bg-gray-100 block px-3 py-2 rounded-md text-base font-medium">訂單記錄</a>
+      </Link>
       <button
         onClick={handleLogout}
         className="text-red-600 hover:bg-gray-100 block w-full text-left px-3 py-2 rounded-md text-base font-medium"
