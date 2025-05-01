@@ -134,8 +134,18 @@ export default function ProfilePage() {
           <div className="bg-white rounded-lg p-6 shadow">
             <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
               {/* 用戶頭像 */}
-              <div className="h-20 w-20 rounded-full bg-[#4a5332] text-white flex items-center justify-center text-xl">
-                {user?.name?.charAt(0).toUpperCase() || '?'}
+              <div className="h-20 w-20 rounded-full overflow-hidden">
+                {user?.avatar ? (
+                  <img
+                    src={user.avatar.startsWith('http') ? user.avatar : `http://localhost:5000${user.avatar}`}
+                    alt="用戶頭像"
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <div className="h-full w-full bg-[#4a5332] text-white flex items-center justify-center text-xl">
+                    {user?.name?.charAt(0).toUpperCase() || '?'}
+                  </div>
+                )}
               </div>
 
               {/* 用戶基本信息 */}
@@ -167,41 +177,37 @@ export default function ProfilePage() {
               <nav>
                 <button
                   onClick={() => setActiveSection('personal-info')}
-                  className={`w-full text-left py-3 px-4 ${
-                    activeSection === 'personal-info'
+                  className={`w-full text-left py-3 px-4 ${activeSection === 'personal-info'
                       ? 'bg-gray-100 border-l-4 border-[#4a5332] text-[#4a5332]'
                       : 'text-gray-600 hover:bg-gray-50'
-                  }`}
+                    }`}
                 >
                   個人資料
                 </button>
                 <button
                   onClick={() => setActiveSection('change-password')}
-                  className={`w-full text-left py-3 px-4 ${
-                    activeSection === 'change-password'
+                  className={`w-full text-left py-3 px-4 ${activeSection === 'change-password'
                       ? 'bg-gray-100 border-l-4 border-[#4a5332] text-[#4a5332]'
                       : 'text-gray-600 hover:bg-gray-50'
-                  }`}
+                    }`}
                 >
                   變更密碼
                 </button>
                 <button
                   onClick={() => setActiveSection('orders')}
-                  className={`w-full text-left py-3 px-4 ${
-                    activeSection === 'orders'
+                  className={`w-full text-left py-3 px-4 ${activeSection === 'orders'
                       ? 'bg-gray-100 border-l-4 border-[#4a5332] text-[#4a5332]'
                       : 'text-gray-600 hover:bg-gray-50'
-                  }`}
+                    }`}
                 >
                   訂單記錄
                 </button>
                 <button
                   onClick={() => setActiveSection('addresses')}
-                  className={`w-full text-left py-3 px-4 ${
-                    activeSection === 'addresses'
+                  className={`w-full text-left py-3 px-4 ${activeSection === 'addresses'
                       ? 'bg-gray-100 border-l-4 border-[#4a5332] text-[#4a5332]'
                       : 'text-gray-600 hover:bg-gray-50'
-                  }`}
+                    }`}
                 >
                   配送地址
                 </button>

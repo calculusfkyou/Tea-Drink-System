@@ -241,6 +241,44 @@ export const updateProfile = async (req, res) => {
   }
 };
 
+// 上傳頭像的功能
+export const uploadAvatar = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({
+        status: 'fail',
+        message: '請選擇頭像圖片'
+      });
+    }
+
+    // 獲取文件相對路徑
+    const avatarUrl = `/uploads/avatars/${req.file.filename}`;
+
+    // 更新用戶頭像
+    await User.update(
+      { avatar: avatarUrl },
+      { where: { id: req.user.id } }
+    );
+
+    // 獲取更新後的用戶資料
+    const updatedUser = await User.findByPk(req.user.id, {
+      attributes: { exclude: ['password'] }
+    });
+
+    res.status(200).json({
+      status: 'success',
+      message: '頭像更新成功',
+      data: updatedUser
+    });
+  } catch (error) {
+    console.error('上傳頭像錯誤:', error);
+    res.status(500).json({
+      status: 'error',
+      message: '伺服器錯誤'
+    });
+  }
+};
+
 // 變更密碼
 export const changePassword = async (req, res) => {
   try {

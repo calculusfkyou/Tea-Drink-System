@@ -5,9 +5,11 @@ import {
   logout,
   getMe,
   updateProfile,
-  changePassword
+  changePassword,
+  uploadAvatar
 } from '../controllers/authController.js';
 import { protect } from '../middlewares/authMiddleware.js';
+import { upload } from '../config/uploadConfig.js';
 
 const router = express.Router();
 
@@ -20,5 +22,6 @@ router.get('/logout', logout);
 router.get('/me', protect, getMe);
 router.put('/profile', protect, updateProfile);
 router.put('/change-password', protect, changePassword);
+router.post('/avatar', protect, upload.single('avatar'), uploadAvatar);
 
 export default router;

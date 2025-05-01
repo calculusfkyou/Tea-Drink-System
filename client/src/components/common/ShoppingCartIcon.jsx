@@ -1,12 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function ShoppingCartIcon() {
+  // 檢查用戶是否已登入
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   // 這裡可以加入購物車品項數量狀態 (暫時先不實作)
   // const [itemCount, setItemCount] = useState(0);
 
+  useEffect(() => {
+    // 檢查用戶登入狀態
+    const checkLoginStatus = () => {
+      const userDisplay = localStorage.getItem('userDisplay');
+      setIsLoggedIn(!!userDisplay);
+    };
+
+    checkLoginStatus();
+
+    // 監聽 storage 事件，當其他頁面登入/登出時更新狀態
+    window.addEventListener('storage', checkLoginStatus);
+    return () => {
+      window.removeEventListener('storage', checkLoginStatus);
+    };
+  }, []);
+
   return (
-    <Link to="/cart" className="relative p-1">
+    // 根據登入狀態決定連結目標
+    <Link to={isLoggedIn ? "/cart" : "/login"} className="relative p-1">
       <svg
         className="w-6 h-6 text-gray-600 hover:text-[#4a5332]"
         fill="none"

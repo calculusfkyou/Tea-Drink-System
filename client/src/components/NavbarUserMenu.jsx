@@ -3,7 +3,6 @@ import { useNavigate, Link } from 'react-router-dom';
 
 export function NavbarUserMenu() {
   const [user, setUser] = useState(null);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,8 +24,13 @@ export function NavbarUserMenu() {
 
     // 監聽 storage 事件，當其他頁面登入/登出時更新狀態
     window.addEventListener('storage', checkLoginStatus);
+
+    // 監聽自定義的頭像更新事件
+    window.addEventListener('avatarUpdated', checkLoginStatus);
+
     return () => {
       window.removeEventListener('storage', checkLoginStatus);
+      window.removeEventListener('avatarUpdated', checkLoginStatus);
     };
   }, []);
 
@@ -44,9 +48,6 @@ export function NavbarUserMenu() {
 
         // 重置用戶狀態
         setUser(null);
-
-        // 關閉下拉選單
-        setIsDropdownOpen(false);
 
         // 導航到首頁
         navigate('/');
@@ -68,12 +69,28 @@ export function NavbarUserMenu() {
     );
   }
 
-  // 用戶已登入，顯示用戶選單
+  // 用戶已登入，顯示用戶頭像
   return (
     <Link to="/profile" className="flex items-center space-x-2">
       <span className="text-sm text-gray-700">{user.name}</span>
-      <div className="h-8 w-8 rounded-full bg-[#4a5332] text-white flex items-center justify-center text-sm">
-        {user.name.charAt(0).toUpperCase()}
+      <div className="h-8 w-8 rounded-full overflow-hidden">
+        {user.avatar ? (
+          <img
+            key={user.avatar} // 添加key以確保頭像更新時重新渲染
+            src={user.avatar.startsWith('http') ? user.avatar : `http://localhost:5000${user.avatar}`}
+            alt="用戶頭像"
+            className="h-full w-full object-cover"
+            onError={(e) => {
+              console.error('頭像載入失敗:', user.avatar);
+              e.target.onerror = null;
+              e.target.src = ''; // 清空來顯示預設圖標
+            }}
+          />
+        ) : (
+          <div className="h-full w-full bg-[#4a5332] text-white flex items-center justify-center text-sm">
+            {user.name.charAt(0).toUpperCase()}
+          </div>
+        )}
       </div>
     </Link>
   );

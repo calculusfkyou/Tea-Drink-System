@@ -99,12 +99,13 @@ export function LoginForm() {
 
         // 存儲基本的用戶資訊 (不含敏感資料)
         if (data.data && data.data.user) {
-          // 只保存用於界面顯示的用戶基本信息
-          const displayInfo = {
+          localStorage.setItem('userDisplay', JSON.stringify({
+            id: data.data.user.id,
             name: data.data.user.name,
-            email: data.data.user.email
-          };
-          localStorage.setItem('userDisplay', JSON.stringify(displayInfo));
+            email: data.data.user.email,
+            avatar: data.data.user.avatar, // 確保頭像資訊被儲存
+            role: data.data.user.role
+          }));
         }
       } else {
         console.error('未收到預期的令牌或用戶資料');

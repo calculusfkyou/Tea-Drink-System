@@ -7,6 +7,11 @@ export const User = sequelize.define('User', {
     autoIncrement: true,
     primaryKey: true
   },
+  avatar: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: null
+  },
   name: {
     type: DataTypes.STRING,
     allowNull: false
