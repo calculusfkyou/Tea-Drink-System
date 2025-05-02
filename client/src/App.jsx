@@ -24,7 +24,6 @@ function App() {
           <Route path="/news/:id" element={<NewsDetailPage />} /> {/* 新增新聞詳情路由 */}
           <Route path="/locations" element={<LocationsPage />} />
           <Route path="/locations/:id" element={<StoreDetailPage />} />
-          {/* <Route path="*" element={<p className="p-6 text-center">找不到頁面 😢</p>} /> */}
           <Route path="/about" element={<AboutPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/register" element={<RegisterPage />} /> {/* 新增註冊路由 */}
