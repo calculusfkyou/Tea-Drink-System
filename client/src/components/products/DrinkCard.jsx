@@ -1,8 +1,11 @@
 import React from 'react';
 
-export function DrinkCard({ name, image, description, price }) {
+export function DrinkCard({ id, name, image, description, price, onClick }) {
   return (
-    <div className="text-center bg-white border border-gray-200 rounded-lg p-4 shadow hover:shadow-md transition-shadow flex flex-col">
+    <div
+      className="text-center bg-white border border-gray-200 rounded-lg p-4 shadow hover:shadow-md transition-shadow flex flex-col cursor-pointer"
+      onClick={() => onClick(id)}
+    >
       {/* 1. 建立固定高度的圖片容器 */}
       <div className="w-full h-48 flex items-center justify-center mb-4 overflow-hidden flex-shrink-0">
         {/* 2. 讓圖片縮放以符合容器，並保持比例 */}

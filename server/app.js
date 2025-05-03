@@ -6,20 +6,9 @@ import newsRoutes from './routes/newsRoutes.js'; // 引入新聞路由
 import storeRoutes from './routes/storeRoutes.js'; // 引入門市路由
 import authRoutes from './routes/authRoutes.js'; // 引入認證路由
 import addressRoutes from './routes/addressRoutes.js'; // 引入地址路由
+import productRoutes from './routes/productRoutes.js';
+import { initializeProducts } from './models/productModel.js';
 import cookieParser from 'cookie-parser';
-
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const uploadDir = path.join(__dirname, 'public/uploads/avatars');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-  console.log('Created uploads directory:', uploadDir);
-}
 
 dotenv.config();
 
@@ -48,28 +37,35 @@ app.post('/api/hello', (req, res) => {
   res.json({ message: `Hello ${name} from MoMo Backend!` });
 });
 
-// 添加新聞路由
 app.use('/api/news', newsRoutes);
-
-// 添加門市路由
 app.use('/api/stores', storeRoutes);
-
-// 添加認證路由
 app.use('/api/auth', authRoutes);
 app.use('/api/addresses', addressRoutes);
+app.use('/api/products', productRoutes);
 
-// 提供靜態文件訪問
-app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
-
-app.listen(PORT, async () => {
+const startServer = async () => {
   try {
+    // 資料庫認證
     await sequelize.authenticate();
     console.log('MySQL connected successfully');
 
+    // 資料庫同步
     await sequelize.sync({ alter: true });
-    console.log('Tables sync successfully');
+    console.log('資料庫已同步');
+
+    // 初始化產品資料（只在需要時執行）
+    await initializeProducts();
+    console.log('產品資料已檢查/初始化');
+
+    // 啟動伺服器
+    app.listen(PORT, () => {
+      console.log(`✅ 伺服器運行中: http://localhost:${PORT}`);
+    });
   } catch (error) {
-    console.log('Unable to connect to MySQL:', error);
+    console.error('伺服器啟動失敗:', error);
   }
-  console.log(`✅ Server running on http://localhost:${PORT}`);
-});
+};
+
+// 執行啟動函數
+startServer();
+
