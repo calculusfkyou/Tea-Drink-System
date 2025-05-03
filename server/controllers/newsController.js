@@ -1,44 +1,49 @@
-import { newsData } from '../models/newsModel.js';
+import { Op } from 'sequelize';
+import { News } from '../models/newsModel.js';
 
 // 獲取所有新聞
-export const getAllNews = (req, res) => {
+export const getAllNews = async (req, res) => {
   try {
-    // 取得分類和限制參數
     const { category, limit } = req.query;
 
-    let result = [...newsData];
-
-    // 將日期字串轉換為日期對象並排序（新到舊）
-    result.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-    // 如果有分類參數且不是'全部'，進行過濾
+    // 建立查詢條件
+    let whereClause = {};
     if (category && category !== '全部') {
-      result = result.filter(news => news.category === category);
+      whereClause.category = category;
     }
 
-    // 如果有限制參數，限制返回的結果數量
+    // 查詢選項
+    let options = {
+      where: whereClause,
+      order: [['date', 'DESC']]
+    };
+
+    // 如果有限制參數，設定 limit
     if (limit) {
-      result = result.slice(0, parseInt(limit));
+      options.limit = parseInt(limit);
     }
 
-    return res.status(200).json(result);
+    const news = await News.findAll(options);
+    return res.status(200).json(news);
   } catch (error) {
+    console.error('獲取新聞失敗:', error);
     return res.status(500).json({ message: '獲取新聞失敗', error: error.message });
   }
 };
 
 // 獲取單個新聞詳情
-export const getNewsById = (req, res) => {
+export const getNewsById = async (req, res) => {
   try {
     const { id } = req.params;
-    const news = newsData.find(item => item.id === parseInt(id));
 
+    const news = await News.findByPk(id);
     if (!news) {
       return res.status(404).json({ message: '找不到該新聞' });
     }
 
     return res.status(200).json(news);
   } catch (error) {
+    console.error('獲取新聞詳情失敗:', error);
     return res.status(500).json({ message: '獲取新聞詳情失敗', error: error.message });
   }
 };

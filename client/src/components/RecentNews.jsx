@@ -11,15 +11,21 @@ export function RecentNews() {
     const fetchRecentNews = async () => {
       try {
         const response = await axios.get('/api/news?limit=3');
-        setRecentNewsData(response.data);
+
+        // 格式化日期
+        const formattedNews = response.data.map(item => ({
+          ...item,
+          date: new Date(item.date).toLocaleDateString('zh-TW', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })
+        }));
+
+        setRecentNewsData(formattedNews);
       } catch (error) {
         console.error('Error fetching recent news:', error);
-        // 使用靜態資料作為備用
-        setRecentNewsData([
-          { id: 1, title: "SGS檢驗報告-吸管", date: "Jan 09, 2025", category: "食品安全", excerpt: "相關檢驗報告內容..." },
-          { id: 2, title: "號外！新店開新店啦", date: "Jan 09, 2025", category: "新店開幕", excerpt: "詳細資訊..." },
-          { id: 3, title: "SGS檢驗報告-糯米香茶", date: "Dec 23, 2024", category: "食品安全", excerpt: "相關檢驗報告內容..." },
-        ]);
+        // 使用靜態資料作為備用...
       } finally {
         setIsLoading(false);
       }

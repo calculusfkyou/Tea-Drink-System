@@ -18,69 +18,31 @@ export default function NewsPage() {
     const fetchNews = async () => {
       setIsLoading(true);
       try {
-        // 如果將來實作真正的 API，可以在這裡添加分類過濾邏輯
-        const response = await axios.get('/api/news');
-        setNewsData(response.data);
+        // 使用分類過濾
+        const apiUrl = `/api/news${activeCategory !== '全部' ? `?category=${encodeURIComponent(activeCategory)}` : ''}`;
+        const response = await axios.get(apiUrl);
+
+        // 格式化日期 (因為資料庫中的日期格式可能與顯示不同)
+        const formattedNews = response.data.map(item => ({
+          ...item,
+          date: new Date(item.date).toLocaleDateString('zh-TW', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })
+        }));
+
+        setNewsData(formattedNews);
       } catch (error) {
         console.error('Error fetching news:', error);
-        // 備用靜態資料
-        setNewsData([
-          {
-            id: 1,
-            title: "SGS檢驗報告-吸管",
-            date: "Jan 09, 2025",
-            category: "食品安全",
-            image: "/assets/news/news-1.jpg",
-            content: "本報告詳細記錄了我們吸管的食品安全檢測結果，確保顧客使用時的安全..."
-          },
-          {
-            id: 2,
-            title: "號外！新店開新店啦",
-            date: "Jan 09, 2025",
-            category: "新店開幕",
-            image: "/assets/news/news-2.jpg",
-            content: "我們很高興宣布，拾玖茶屋即將於台北市信義區開設新門市..."
-          },
-          {
-            id: 3,
-            title: "SGS檢驗報告-糯米香茶",
-            date: "Dec 23, 2024",
-            category: "食品安全",
-            image: "/assets/news/news-3.jpg",
-            content: "本次檢驗重點在於我們招牌的糯米香茶，檢測結果顯示無任何農藥殘留..."
-          },
-          {
-            id: 4,
-            title: "【新店開張】土城學府店 3.4 試營運",
-            date: "March 02, 2024",
-            category: "新店開幕",
-            image: "/assets/news/news-4.jpg",
-            content: "拾玖茶屋土城學府店將於 3 月 4 日開始試營運！試營運期間，全品項飲品享有優惠..."
-          },
-          {
-            id: 5,
-            title: "【新品上市】初夏限定 - 繽紛水果茶系列",
-            date: "May 15, 2024",
-            category: "新品發售",
-            image: "/assets/news/news-5.jpg",
-            content: "初夏限定，繽紛水果茶系列驚喜登場！選用時令水果，搭配特調茶基底，打造出清爽解膩的獨特風味..."
-          },
-          {
-            id: 6,
-            title: "【重要公告】食品安全檢驗報告公開",
-            date: "April 20, 2024",
-            category: "重要公告",
-            image: "/assets/news/news-6.jpg",
-            content: "拾玖茶屋一直致力於提供安全健康的飲品。我們很高興地宣布，最新一季的SGS食品安全檢驗報告已公布..."
-          }
-        ]);
+        // 備用錯誤處理...
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchNews();
-  }, []);
+  }, [activeCategory]);
 
   // 過濾新聞
   const filteredNews = activeCategory === '全部'
