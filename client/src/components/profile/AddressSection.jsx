@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 export default function AddressSection({ user }) {
   const [addresses, setAddresses] = useState([]);
@@ -17,36 +18,23 @@ export default function AddressSection({ user }) {
     isDefault: false
   });
 
-  // 模擬獲取地址數據
-  useEffect(() => {
-    // 假設的地址數據
-    const mockAddresses = [
-      {
-        id: '1',
-        nickname: '家',
-        recipient: '王小明',
-        phone: '0912345678',
-        city: '台北市',
-        district: '大安區',
-        address: '忠孝東路四段2號5樓',
-        isDefault: true
-      },
-      {
-        id: '2',
-        nickname: '公司',
-        recipient: '王小明',
-        phone: '0923456789',
-        city: '台北市',
-        district: '信義區',
-        address: '松仁路100號',
-        isDefault: false
-      }
-    ];
-
-    setTimeout(() => {
-      setAddresses(mockAddresses);
+  // 獲取用戶的地址
+  const fetchAddresses = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get('/api/addresses', { withCredentials: true });
+      setAddresses(response.data.data);
+      setError('');
+    } catch (err) {
+      console.error('獲取地址錯誤:', err);
+      setError('獲取地址失敗，請重試');
+    } finally {
       setLoading(false);
-    }, 1000); // 模擬載入延遲
+    }
+  };
+
+  useEffect(() => {
+    fetchAddresses();
   }, []);
 
   const handleInputChange = (e) => {
@@ -85,37 +73,40 @@ export default function AddressSection({ user }) {
     setEditingAddressId(address.id);
   };
 
-  const handleDeleteClick = (id) => {
+  const handleDeleteClick = async (id) => {
     if (window.confirm('確定要刪除這個地址嗎？')) {
-      // 模擬刪除操作
-      setAddresses(prev => prev.filter(address => address.id !== id));
+      try {
+        await axios.delete(`/api/addresses/${id}`);
+        fetchAddresses(); // 重新獲取地址列表
+      } catch (err) {
+        console.error('刪除地址錯誤:', err);
+        setError('刪除地址失敗，請重試');
+      }
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
-    // 模擬提交表單
-    if (editingAddressId) {
-      // 更新地址
-      setAddresses(prev =>
-        prev.map(address =>
-          address.id === editingAddressId
-            ? { ...address, ...formData }
-            : address
-        )
-      );
-    } else {
-      // 添加新地址
-      const newAddress = {
-        ...formData,
-        id: String(Date.now()) // 模擬生成ID
-      };
-      setAddresses(prev => [...prev, newAddress]);
+    try {
+      if (editingAddressId) {
+        // 更新地址
+        await axios.put(`/api/addresses/${editingAddressId}`, formData);
+      } else {
+        // 添加新地址
+        await axios.post('/api/addresses', formData);
+      }
+
+      setShowForm(false);
+      setEditingAddressId(null);
+      fetchAddresses(); // 重新獲取地址列表
+    } catch (err) {
+      console.error('保存地址錯誤:', err);
+      setError('保存地址失敗，請重試');
+    } finally {
+      setLoading(false);
     }
-
-    setShowForm(false);
-    setEditingAddressId(null);
   };
 
   if (loading) {

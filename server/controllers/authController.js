@@ -251,12 +251,13 @@ export const uploadAvatar = async (req, res) => {
       });
     }
 
-    // 獲取文件相對路徑
-    const avatarUrl = `/uploads/avatars/${req.file.filename}`;
+    // 直接使用正確的 base64 格式 (不包含服務器地址)
+    const fileBuffer = req.file.buffer;
+    const base64Image = `data:${req.file.mimetype};base64,${fileBuffer.toString('base64')}`;
 
     // 更新用戶頭像
     await User.update(
-      { avatar: avatarUrl },
+      { avatar: base64Image },
       { where: { id: req.user.id } }
     );
 

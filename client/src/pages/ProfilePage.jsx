@@ -137,7 +137,7 @@ export default function ProfilePage() {
               <div className="h-20 w-20 rounded-full overflow-hidden">
                 {user?.avatar ? (
                   <img
-                    src={user.avatar.startsWith('http') ? user.avatar : `http://localhost:5000${user.avatar}`}
+                    src={user.avatar}
                     alt="用戶頭像"
                     className="h-full w-full object-cover"
                   />

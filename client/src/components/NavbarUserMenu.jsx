@@ -34,31 +34,6 @@ export function NavbarUserMenu() {
     };
   }, []);
 
-  const handleLogout = async () => {
-    try {
-      // 發送登出請求
-      const response = await fetch('http://localhost:5000/api/auth/logout', {
-        method: 'GET',
-        credentials: 'include',
-      });
-
-      if (response.ok) {
-        // 清除本地存儲
-        localStorage.removeItem('userDisplay');
-
-        // 重置用戶狀態
-        setUser(null);
-
-        // 導航到首頁
-        navigate('/');
-      } else {
-        console.error('登出失敗');
-      }
-    } catch (error) {
-      console.error('登出請求失敗:', error);
-    }
-  };
-
   // 如果用戶未登入，顯示註冊/登入按鈕
   if (!user) {
     return (
@@ -76,12 +51,12 @@ export function NavbarUserMenu() {
       <div className="h-8 w-8 rounded-full overflow-hidden">
         {user.avatar ? (
           <img
-            key={user.avatar} // 添加key以確保頭像更新時重新渲染
-            src={user.avatar.startsWith('http') ? user.avatar : `http://localhost:5000${user.avatar}`}
+            key={Date.now()} // 使用時間戳作為key強制重新渲染
+            src={user.avatar} // 直接使用頭像數據，不需要處理路徑
             alt="用戶頭像"
             className="h-full w-full object-cover"
             onError={(e) => {
-              console.error('頭像載入失敗:', user.avatar);
+              console.error('頭像載入失敗');
               e.target.onerror = null;
               e.target.src = ''; // 清空來顯示預設圖標
             }}

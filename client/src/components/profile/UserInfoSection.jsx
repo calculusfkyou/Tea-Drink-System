@@ -93,6 +93,11 @@ export default function UserInfoSection({ user, setUser }) {
         window.dispatchEvent(new Event('avatarUpdated'));
       }, 500);
 
+      // 強制重新整理localStorage
+      setTimeout(() => {
+        localStorage.setItem('_forceUpdate', Date.now().toString());
+      }, 100);
+
     } catch (err) {
       console.error('上傳頭像錯誤:', err);
       setError(err.message || '無法上傳頭像，請稍後再試');
@@ -145,9 +150,8 @@ export default function UserInfoSection({ user, setUser }) {
     }
   };
 
-  const serverUrl = 'http://localhost:5000';
-  const defaultAvatarUrl = user?.avatar || null;
-  const avatarDisplay = avatarPreview || defaultAvatarUrl;
+  // const defaultAvatarUrl = user?.avatar || null;
+  const avatarDisplay = avatarPreview || user?.avatar || null;
 
   return (
     <div>
@@ -183,8 +187,7 @@ export default function UserInfoSection({ user, setUser }) {
         >
           {avatarDisplay ? (
             <img
-              src={avatarDisplay.startsWith('http') || avatarDisplay.startsWith('data:') ?
-                avatarDisplay : `${serverUrl}${avatarDisplay}`}
+              src={avatarDisplay} // 現在直接使用 base64 數據，不需要處理路徑
               alt="頭像"
               className="h-full w-full object-cover"
             />

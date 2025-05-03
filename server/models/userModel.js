@@ -8,7 +8,7 @@ export const User = sequelize.define('User', {
     primaryKey: true
   },
   avatar: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT('long'),  // 使用TEXT('long')來存儲base64編碼的圖片
     allowNull: true,
     defaultValue: null
   },

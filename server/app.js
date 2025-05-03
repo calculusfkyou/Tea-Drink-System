@@ -5,6 +5,7 @@ import sequelize from './config/database.js'; // 引入資料庫連線
 import newsRoutes from './routes/newsRoutes.js'; // 引入新聞路由
 import storeRoutes from './routes/storeRoutes.js'; // 引入門市路由
 import authRoutes from './routes/authRoutes.js'; // 引入認證路由
+import addressRoutes from './routes/addressRoutes.js'; // 引入地址路由
 import cookieParser from 'cookie-parser';
 
 import fs from 'fs';
@@ -55,6 +56,7 @@ app.use('/api/stores', storeRoutes);
 
 // 添加認證路由
 app.use('/api/auth', authRoutes);
+app.use('/api/addresses', addressRoutes);
 
 // 提供靜態文件訪問
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
