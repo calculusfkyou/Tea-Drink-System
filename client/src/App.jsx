@@ -9,6 +9,9 @@ import StoreDetailPage from './pages/api/StoreDetailPage'; // 匯入 StoreDetail
 import AboutPage from './pages/AboutPage'; // 匯入 AboutPage
 import ProfilePage from './pages/ProfilePage';
 import NotFoundPage from './pages/NotFoundPage';
+import CartPage from './pages/CartPage';
+import CheckoutPage from './pages/CheckoutPage';
+import OrderSuccessPage from './pages/OrderSuccessPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import LoginPage from './pages/auth/LoginPage';
 
@@ -26,6 +29,9 @@ function App() {
           <Route path="/locations/:id" element={<StoreDetailPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/order-success/:orderNumber" element={<OrderSuccessPage />} />
           <Route path="/register" element={<RegisterPage />} /> {/* 新增註冊路由 */}
           <Route path="/login" element={<LoginPage />} /> {/* 新增登入路由 */}
           <Route path="*" element={<NotFoundPage />} />

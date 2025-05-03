@@ -2,30 +2,45 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function ShoppingCartIcon() {
-  // 檢查用戶是否已登入
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  // 這裡可以加入購物車品項數量狀態 (暫時先不實作)
-  // const [itemCount, setItemCount] = useState(0);
+  const [itemCount, setItemCount] = useState(0);
 
   useEffect(() => {
     // 檢查用戶登入狀態
     const checkLoginStatus = () => {
       const userDisplay = localStorage.getItem('userDisplay');
       setIsLoggedIn(!!userDisplay);
+
+      // 獲取購物車項目數量
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const count = cart.reduce((total, item) => total + item.quantity, 0);
+      setItemCount(count);
     };
 
     checkLoginStatus();
 
-    // 監聽 storage 事件，當其他頁面登入/登出時更新狀態
+    // 監聽 storage 事件
     window.addEventListener('storage', checkLoginStatus);
+
+    // 添加自定義事件監聽器，用於其他組件更新購物車時通知
+    const handleCartUpdate = () => {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const count = cart.reduce((total, item) => total + item.quantity, 0);
+      setItemCount(count);
+    };
+
+    window.addEventListener('cartUpdated', handleCartUpdate);
+
+    // 立即檢查一次
+    handleCartUpdate();
+
     return () => {
       window.removeEventListener('storage', checkLoginStatus);
+      window.removeEventListener('cartUpdated', handleCartUpdate);
     };
   }, []);
 
   return (
-    // 根據登入狀態決定連結目標
     <Link to={isLoggedIn ? "/cart" : "/login"} className="relative p-1">
       <svg
         className="w-6 h-6 text-gray-600 hover:text-[#4a5332]"
@@ -41,12 +56,12 @@ export default function ShoppingCartIcon() {
         ></path>
       </svg>
 
-      {/* 未來可以加入數量標示 */}
-      {/* {itemCount > 0 && (
-        <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+      {/* 顯示購物車數量 */}
+      {itemCount > 0 && (
+        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
           {itemCount}
         </span>
-      )} */}
+      )}
     </Link>
   );
 }

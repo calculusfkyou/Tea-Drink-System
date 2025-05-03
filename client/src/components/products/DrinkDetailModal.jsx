@@ -89,16 +89,35 @@ export function DrinkDetailModal({ product, onClose, isLoggedIn }) {
       quantity,
       toppings: selectedToppings,
       price: totalPrice,
-      image: product.image
+      image: product.image,
+      timestamp: Date.now() // 添加時間戳以區分相同商品的不同訂單
     };
 
-    // 這裡將來會實現真正的購物車功能
-    console.log('加入購物車:', orderItem);
-
-    // 暫時使用localStorage模擬保存購物車數據
+    // 獲取現有購物車
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    cart.push(orderItem);
+
+    // 檢查是否有相同商品(完全相同的規格)
+    const existingItemIndex = cart.findIndex(item =>
+      item.productId === orderItem.productId &&
+      item.size === orderItem.size &&
+      item.sugar === orderItem.sugar &&
+      item.ice === orderItem.ice &&
+      JSON.stringify(item.toppings) === JSON.stringify(orderItem.toppings)
+    );
+
+    // 如果存在相同商品，更新數量
+    if (existingItemIndex !== -1) {
+      cart[existingItemIndex].quantity += quantity;
+      cart[existingItemIndex].price = parseFloat(cart[existingItemIndex].price) + parseFloat(totalPrice);
+    } else {
+      cart.push(orderItem);
+    }
+
+    // 更新localStorage
     localStorage.setItem('cart', JSON.stringify(cart));
+
+    // 觸發購物車更新事件
+    window.dispatchEvent(new Event('cartUpdated'));
 
     // 顯示成功提示並關閉彈窗
     alert('成功加入購物車！');

@@ -8,6 +8,7 @@ import authRoutes from './routes/authRoutes.js'; // 引入認證路由
 import addressRoutes from './routes/addressRoutes.js'; // 引入地址路由
 import productRoutes from './routes/productRoutes.js';
 import { initializeProducts } from './models/productModel.js';
+import orderRoutes from './routes/orderRoutes.js';
 import cookieParser from 'cookie-parser';
 
 dotenv.config();
@@ -42,6 +43,7 @@ app.use('/api/stores', storeRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/addresses', addressRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/orders', orderRoutes);
 
 const startServer = async () => {
   try {
