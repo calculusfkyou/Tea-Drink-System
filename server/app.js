@@ -8,6 +8,7 @@ import authRoutes from './routes/authRoutes.js'; // 引入認證路由
 import addressRoutes from './routes/addressRoutes.js'; // 引入地址路由
 import productRoutes from './routes/productRoutes.js';
 import { initializeProducts } from './models/productModel.js';
+import { syncStoreModel, initializeStores } from './models/storeModel.js';
 import orderRoutes from './routes/orderRoutes.js';
 import cookieParser from 'cookie-parser';
 
@@ -57,7 +58,8 @@ const startServer = async () => {
 
     // 初始化產品資料（只在需要時執行）
     await initializeProducts();
-    console.log('產品資料已檢查/初始化');
+    await initializeStores();
+    console.log('資料已檢查/初始化');
 
     // 啟動伺服器
     app.listen(PORT, () => {

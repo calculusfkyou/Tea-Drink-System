@@ -16,7 +16,7 @@ export default function StoreDetailPage() {
     const fetchStoreDetail = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get(`/api/stores/${id}`);
+        const response = await axios.get(`http://localhost:5000/api/stores/${id}`);
         setStore(response.data);
       } catch (error) {
         console.error('Error fetching store detail:', error);
@@ -54,7 +54,7 @@ export default function StoreDetailPage() {
               {/* 門市標題和圖片 */}
               <StoreDetailHeader
                 name={store.name}
-                image={store.detailImage || store.image}
+                image={store.detailImage || store.detail_image || store.image}
                 onBack={handleBack}
               />
 
@@ -67,7 +67,7 @@ export default function StoreDetailPage() {
                     <div>
                       <span className="text-gray-700">{store.address}</span>
                       <a
-                        href={store.mapLink || `https://www.google.com/maps?q=${encodeURIComponent(store.address)}`}
+                        href={store.mapLink || store.map_link || `https://www.google.com/maps?q=${encodeURIComponent(store.address)}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="ml-2 inline-block text-[#5a6440] font-medium hover:underline"
@@ -87,9 +87,9 @@ export default function StoreDetailPage() {
                   <div className="flex items-start">
                     <span className="font-medium w-24 shrink-0">營業時間：</span>
                     <div className="text-gray-700">
-                      {store.hours.weekday && <div>{store.hours.weekday}</div>}
-                      {store.hours.weekend && <div>{store.hours.weekend}</div>}
-                      {store.hours.default && <div>{store.hours.default}</div>}
+                      {store.hours?.weekday && <div>{store.hours.weekday}</div>}
+                      {store.hours?.weekend && <div>{store.hours.weekend}</div>}
+                      {store.hours?.default && <div>{store.hours.default}</div>}
                       {store.note && (
                         <div className="text-xs text-gray-500 mt-1">{store.note}</div>
                       )}
@@ -99,15 +99,24 @@ export default function StoreDetailPage() {
               </div>
 
               {/* 線上點餐按鈕 */}
-              {store.onlineOrder && (
+              {(store.onlineOrder || store.online_order) && (
                 <div className="text-center mb-8">
                   <button
                     className="bg-[#5a6440] text-white px-8 py-3 rounded-md hover:bg-opacity-90 transition-colors"
-                    onClick={() => navigate('/order', { state: { storeId: store.id } })}
+                    onClick={() => navigate('/products', { state: { storeId: store.id } })}
                   >
                     線上點餐
                   </button>
                 </div>
+              )}
+
+              {/* 地圖位置 */}
+              {(store.location || (store.latitude && store.longitude)) && (
+                <StoreLocation
+                  location={store.location || { lat: store.latitude, lng: store.longitude }}
+                  name={store.name}
+                  address={store.address}
+                />
               )}
             </>
           ) : (
