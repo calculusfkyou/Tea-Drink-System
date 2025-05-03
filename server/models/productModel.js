@@ -78,7 +78,7 @@ export const initializeProducts = async () => {
           category: "recommended",
           priceM: 55,
           priceL: 65,
-          image: "/assets/Recommend-1.jpg",
+          image: "/assets/products/recommend/Recommend-1.jpg",
           description: "香濃奶茶搭配Q彈粉粿，口感層次豐富",
           hotAvailable: true,
           toppings: ['珍珠', '粉粿', '仙草凍']
@@ -88,7 +88,7 @@ export const initializeProducts = async () => {
           category: "recommended",
           priceM: null,
           priceL: 60,
-          image: "/assets/Recommend-2.jpg",
+          image: "/assets/products/recommend/Recommend-2.jpg",
           description: "清新檸檬與黑糖粉粿的絕妙組合",
           toppings: ['粉粿', '椰果']
         },
@@ -97,7 +97,7 @@ export const initializeProducts = async () => {
           category: "recommended",
           priceM: 50,
           priceL: 60,
-          image: "/assets/Recommend-3.jpg",
+          image: "/assets/products/recommend/Recommend-3.webp",
           description: "焙煎蕎麥茶與粉粿的完美搭配，微微咖啡因的健康選擇",
           toppings: ['粉粿', '椰果']
         },
@@ -106,7 +106,7 @@ export const initializeProducts = async () => {
           category: "recommended",
           priceM: null,
           priceL: 50,
-          image: "/assets/Recommend-4.jpg",
+          image: "/assets/products/recommend/Recommend-4.webp",
           description: "清爽綠茶搭配Q彈茶凍與酸甜梅子",
           toppings: ['茶凍']
         },
@@ -115,7 +115,7 @@ export const initializeProducts = async () => {
           category: "recommended",
           priceM: 49,
           priceL: null,
-          image: "/assets/Recommend-5.jpg",
+          image: "/assets/products/recommend/Recommend-5.png",
           description: "中焙紅茶搭配醇香生乳，口感滑順香醇",
           notes: "*甜度(正常/減糖) / 冰塊固定",
           toppings: []
