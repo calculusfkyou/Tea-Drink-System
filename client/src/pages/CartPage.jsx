@@ -5,6 +5,7 @@ import { Footer } from '../components/Footer';
 import { EmptyCart } from '../components/cart/EmptyCart';
 import { CartItem } from '../components/cart/CartItem';
 import { CartSummary } from '../components/cart/CartSummary';
+import { RecommendedProducts } from '../components/cart/RecommendedProducts';
 
 export default function CartPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -76,7 +77,7 @@ export default function CartPage() {
     setTimeout(() => {
       const updatedSelectedItems = selectedItems.filter(item =>
         cart.some(cartItem => cartItem.productId === item.productId ||
-                            cartItem.productId.toString() === item.productId.toString())
+          cartItem.productId.toString() === item.productId.toString())
       );
       setIsAllSelected(updatedSelectedItems.length === cart.length && cart.length > 0);
     }, 0);
@@ -189,51 +190,55 @@ export default function CartPage() {
         {isCartEmpty ? (
           <EmptyCart />
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* 左側: 商品列表 */}
-            <div className="lg:col-span-2">
-              <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-                {/* 標題欄 */}
-                <div className="grid grid-cols-12 gap-4 p-4 bg-gray-50 items-center border-b">
-                  <div className="col-span-1 flex items-center justify-center">
-                    <input
-                      type="checkbox"
-                      checked={isAllSelected}
-                      onChange={(e) => handleSelectAll(e.target.checked)}
-                      className="w-5 h-5"
-                    />
+          <>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* 左側: 商品列表 */}
+              <div className="lg:col-span-2">
+                <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+                  {/* 標題欄 */}
+                  <div className="grid grid-cols-12 gap-4 p-4 bg-gray-50 items-center border-b">
+                    <div className="col-span-1 flex items-center justify-center">
+                      <input
+                        type="checkbox"
+                        checked={isAllSelected}
+                        onChange={(e) => handleSelectAll(e.target.checked)}
+                        className="w-5 h-5"
+                      />
+                    </div>
+                    <div className="col-span-5 font-medium">商品</div>
+                    <div className="col-span-2 text-center font-medium">單價</div>
+                    <div className="col-span-2 text-center font-medium">數量</div>
+                    <div className="col-span-1 text-center font-medium">小計</div>
+                    <div className="col-span-1 text-center font-medium">操作</div>
                   </div>
-                  <div className="col-span-5 font-medium">商品</div>
-                  <div className="col-span-2 text-center font-medium">單價</div>
-                  <div className="col-span-2 text-center font-medium">數量</div>
-                  <div className="col-span-1 text-center font-medium">小計</div>
-                  <div className="col-span-1 text-center font-medium">操作</div>
-                </div>
 
-                {/* 商品項目 */}
-                {cart.map((item) => (
-                  <CartItem
-                    key={`${item.productId}-${item.timestamp}`}
-                    item={item}
-                    isSelected={isSelected(item.productId)}
-                    onSelect={handleSelectItem}
-                    onQuantityChange={handleQuantityChange}
-                    onRemove={handleRemoveItem}
-                  />
-                ))}
+                  {/* 商品項目 */}
+                  {cart.map((item) => (
+                    <CartItem
+                      key={`${item.productId}-${item.timestamp}`}
+                      item={item}
+                      isSelected={isSelected(item.productId)}
+                      onSelect={handleSelectItem}
+                      onQuantityChange={handleQuantityChange}
+                      onRemove={handleRemoveItem}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* 右側: 結帳摘要 */}
+              <div className="lg:col-span-1">
+                <CartSummary
+                  selectedItems={selectedItems}
+                  couponCode={couponCode}
+                  setCouponCode={setCouponCode}
+                  onCheckout={handleCheckout}
+                />
               </div>
             </div>
-
-            {/* 右側: 結帳摘要 */}
-            <div className="lg:col-span-1">
-              <CartSummary
-                selectedItems={selectedItems}
-                couponCode={couponCode}
-                setCouponCode={setCouponCode}
-                onCheckout={handleCheckout}
-              />
-            </div>
-          </div>
+            {/* 猜你喜歡區塊 - 添加在購物車主內容之後 */}
+            <RecommendedProducts cart={cart} />
+          </>
         )}
       </div>
 

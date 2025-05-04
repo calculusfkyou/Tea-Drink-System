@@ -9,6 +9,7 @@ export function DrinkDetailModal({ product, onClose, isLoggedIn }) {
   const [selectedToppings, setSelectedToppings] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
 
   // 初始化選項
   useEffect(() => {
@@ -120,8 +121,9 @@ export function DrinkDetailModal({ product, onClose, isLoggedIn }) {
     window.dispatchEvent(new Event('cartUpdated'));
 
     // 顯示成功提示並關閉彈窗
-    alert('成功加入購物車！');
-    onClose();
+    // alert('成功加入購物車！');
+    // onClose();
+    setShowSuccessToast(true);
   };
 
   if (!product) return null;
@@ -303,6 +305,37 @@ export function DrinkDetailModal({ product, onClose, isLoggedIn }) {
                   className="px-4 py-2 bg-[#5a6440] text-white rounded-md hover:bg-[#4a5332]"
                 >
                   前往登入
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 成功加入購物車彈窗 */}
+        {showSuccessToast && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
+              <div className="flex items-center mb-4">
+                <div className="bg-green-100 p-2 rounded-full mr-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-800">加入成功</h3>
+              </div>
+              <p className="text-gray-600 mb-6">已成功將 {product.name} {selectedSize}杯 加入購物車！</p>
+              <div className="flex justify-end gap-4">
+                <button
+                  onClick={onClose}
+                  className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100"
+                >
+                  繼續購物
+                </button>
+                <Link
+                  to="/cart"
+                  className="px-4 py-2 bg-[#5a6440] text-white rounded-md hover:bg-[#4a5332]"
+                >
+                  前往購物車
                 </Link>
               </div>
             </div>

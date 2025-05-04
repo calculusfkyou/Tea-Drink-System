@@ -311,7 +311,7 @@ export default function CheckoutPage() {
             <div className="lg:col-span-2 space-y-6">
               {/* 訂單商品列表 */}
               <div className="bg-white rounded-lg shadow p-6">
-                <h2 className="text-lg font-medium text-gray-800 mb-4">訂單商品</h2>
+                <h2 className="text-xl font-bold text-[#5a6440] mb-4 pb-2 border-b-2 border-[#5a6440] inline-block">訂單商品</h2>
                 <div className="space-y-4">
                   {checkoutItems.map(item => (
                     <div key={item.productId} className="flex items-center">
@@ -338,7 +338,7 @@ export default function CheckoutPage() {
 
               {/* 配送方式 */}
               <div className="bg-white rounded-lg shadow p-6">
-                <h2 className="text-lg font-medium text-gray-800 mb-4">配送方式</h2>
+                <h2 className="text-xl font-bold text-[#5a6440] mb-4 pb-2 border-b-2 border-[#5a6440] inline-block">配送方式</h2>
                 <div className="space-y-4">
                   <div className="flex items-center">
                     <input
@@ -532,7 +532,7 @@ export default function CheckoutPage() {
 
               {/* 付款方式 */}
               <div className="bg-white rounded-lg shadow p-6">
-                <h2 className="text-lg font-medium text-gray-800 mb-4">付款方式</h2>
+                <h2 className="text-xl font-bold text-[#5a6440] mb-4 pb-2 border-b-2 border-[#5a6440] inline-block">付款方式</h2>
                 <div className="space-y-4">
                   <div className="flex items-center">
                     <input
@@ -575,7 +575,7 @@ export default function CheckoutPage() {
 
               {/* 備註 */}
               <div className="bg-white rounded-lg shadow p-6">
-                <h2 className="text-lg font-medium text-gray-800 mb-4">備註</h2>
+                <h2 className="text-xl font-bold text-[#5a6440] mb-4 pb-2 border-b-2 border-[#5a6440] inline-block">備註</h2>
                 <textarea
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
@@ -588,7 +588,7 @@ export default function CheckoutPage() {
             {/* 右側：訂單摘要 */}
             <div className="lg:col-span-1">
               <div className="bg-white rounded-lg shadow p-6 sticky top-24">
-                <h2 className="text-lg font-medium text-gray-800 mb-4">訂單摘要</h2>
+                <h2 className="text-xl font-bold text-[#5a6440] mb-4 pb-2 border-b-2 border-[#5a6440] inline-block">訂單摘要</h2>
 
                 <div className="space-y-3 mb-6">
                   <div className="flex justify-between text-gray-700">
