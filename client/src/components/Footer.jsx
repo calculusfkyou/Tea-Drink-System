@@ -15,8 +15,7 @@ export function Footer() {
   ];
 
   return (
-    // 使用更深的橄欖綠色背景 (近似值，您可能需要微調)
-    <footer className="bg-[#5a6440] text-white py-6"> {/* 使用圖片中的顏色 */}
+    <footer className="bg-[#7c8861] text-white py-6"> {/* 使用圖片中的顏色 */}
       <div className="max-w-7xl mx-auto px-4">
         {/* 主要內容區: Logo, 導航, 社群圖標 */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-4">
