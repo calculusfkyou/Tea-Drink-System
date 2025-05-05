@@ -12,7 +12,7 @@ export function AboutFeatures() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <div className="rounded-full bg-[#f8f4e5] w-16 h-16 flex items-center justify-center mx-auto mb-4">
-              <img src="/assets/about/feature-tea.svg" alt="優質茶葉" className="w-8 h-8" />
+              <img src="/assets/about/about-feature-1.jpg" alt="優質茶葉" className="w-8 h-8" />
             </div>
             <h3 className="text-xl font-semibold mb-2 text-center text-[#5a6440]">精選茶葉</h3>
             <p className="text-gray-700 text-center">
@@ -22,7 +22,7 @@ export function AboutFeatures() {
 
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <div className="rounded-full bg-[#f8f4e5] w-16 h-16 flex items-center justify-center mx-auto mb-4">
-              <img src="/assets/about/feature-fruit.svg" alt="新鮮食材" className="w-8 h-8" />
+              <img src="/assets/about/about-feature-2.jpg" alt="新鮮食材" className="w-8 h-8" />
             </div>
             <h3 className="text-xl font-semibold mb-2 text-center text-[#5a6440]">新鮮食材</h3>
             <p className="text-gray-700 text-center">
@@ -32,7 +32,7 @@ export function AboutFeatures() {
 
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <div className="rounded-full bg-[#f8f4e5] w-16 h-16 flex items-center justify-center mx-auto mb-4">
-              <img src="/assets/about/feature-brew.svg" alt="專業沖泡" className="w-8 h-8" />
+              <img src="/assets/about/about-feature-3.jpg" alt="專業沖泡" className="w-8 h-8" />
             </div>
             <h3 className="text-xl font-semibold mb-2 text-center text-[#5a6440]">專業沖泡</h3>
             <p className="text-gray-700 text-center">

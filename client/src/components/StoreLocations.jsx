@@ -1,7 +1,6 @@
 import React from 'react';
 
 export function StoreLocations() {
-  // ... (color variables remain the same) ...
   const bgColor = 'bg-[#f8f6f1]';
   const textColor = 'text-[#5a6440]';
   const titleColor = 'text-[#8c8273]';
@@ -10,7 +9,6 @@ export function StoreLocations() {
     <section className={`flex flex-col md:flex-row w-full ${bgColor}`}>
       {/* 左側圖片區 */}
       <div className="md:w-1/2 w-full min-h-[300px] md:min-h-[400px] bg-cover bg-center" style={{ backgroundImage: "url('/assets/StoreLocation.webp')" }}>
-        {/* ... */}
       </div>
 
       {/* 右側內容區 */}

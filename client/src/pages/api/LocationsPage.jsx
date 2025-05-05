@@ -83,7 +83,7 @@ export default function LocationsPage() {
       <div className="relative">
         <div className="h-64 overflow-hidden">
           {/* 可以添加頁面頂部的橫幅圖片 */}
-          <div className="bg-gray-50 py-16 mb-8">
+          <div className="bg-[#f0f2e8] py-16 mb-8">
             <div className="text-center">
               <h1 className="text-4xl font-semibold text-gray-800">門市資訊</h1>
               <p className="text-xl font-serif text-gray-500 tracking-wider mt-2">LOCATIONS</p>

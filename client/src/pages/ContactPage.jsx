@@ -12,9 +12,9 @@ export default function ContactPage() {
     <div className={`flex flex-col min-h-screen ${pageBgColor}`}>
       <Navbar />
 
-      <main className="flex-grow w-full">
+      <main className="bg-white flex-grow w-full">
         <ContactHeader />
-        <FranchiseSection />
+        {/* <FranchiseSection /> */}
         <ContactFormSection />
       </main>
 
