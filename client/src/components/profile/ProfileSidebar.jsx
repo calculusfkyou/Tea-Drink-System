@@ -19,13 +19,25 @@ export default function ProfileSidebar({ activeSection, setActiveSection, user }
       });
 
       if (response.ok) {
+        // 清除用戶資訊
         localStorage.removeItem('userDisplay');
-        navigate('/login');
+
+        // 清除購物車資料
+        localStorage.removeItem('cart');
+        localStorage.removeItem('checkoutItems');
+
+        // 觸發購物車更新事件
+        window.dispatchEvent(new Event('cartUpdated'));
+
+        // 導航到首頁
+        navigate('/');
       } else {
         console.error('登出失敗');
+        setError('登出失敗，請稍後再試');
       }
     } catch (error) {
-      console.error('登出請求失敗:', error);
+      console.error('登出請求錯誤:', error);
+      setError('登出時發生錯誤，請稍後再試');
     }
   };
 
@@ -39,11 +51,10 @@ export default function ProfileSidebar({ activeSection, setActiveSection, user }
           <button
             key={item.id}
             onClick={() => setActiveSection(item.id)}
-            className={`w-full text-left py-3 px-4 ${
-              activeSection === item.id
+            className={`w-full text-left py-3 px-4 ${activeSection === item.id
                 ? 'bg-gray-100 border-l-4 border-[#4a5332] text-[#4a5332]'
                 : 'text-gray-600 hover:bg-gray-50'
-            }`}
+              }`}
           >
             {item.label}
           </button>

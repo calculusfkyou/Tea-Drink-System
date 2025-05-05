@@ -62,8 +62,16 @@ export default function ProfilePage() {
       });
 
       if (response.ok) {
-        // 清除本地存儲
+        // 清除用戶資訊
         localStorage.removeItem('userDisplay');
+
+        // 清除購物車資料
+        localStorage.removeItem('cart');
+        localStorage.removeItem('checkoutItems');
+
+        // 觸發購物車更新事件
+        window.dispatchEvent(new Event('cartUpdated'));
+
         // 導航到首頁
         navigate('/');
       } else {

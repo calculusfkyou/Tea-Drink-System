@@ -105,12 +105,25 @@ function MobileUserMenu() {
       });
 
       if (response.ok) {
+        // 清除用戶資訊
         localStorage.removeItem('userDisplay');
-        setUser(null);
+
+        // 清除購物車資料
+        localStorage.removeItem('cart');
+        localStorage.removeItem('checkoutItems');
+
+        // 觸發購物車更新事件
+        window.dispatchEvent(new Event('cartUpdated'));
+
+        // 導航到首頁
         navigate('/');
+      } else {
+        console.error('登出失敗');
+        setError('登出失敗，請稍後再試');
       }
     } catch (error) {
-      console.error('登出請求失敗:', error);
+      console.error('登出請求錯誤:', error);
+      setError('登出時發生錯誤，請稍後再試');
     }
   };
 
