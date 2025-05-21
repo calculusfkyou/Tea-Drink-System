@@ -21,6 +21,7 @@ import AdminProductEditPage from './pages/admin/AdminProductEditPage';
 import AdminProductsPage from './pages/admin/AdminProductsPage';
 import AdminUsersPage from './pages/admin/AdminUsersPage';
 import AdminUserDetailPage from './pages/admin/AdminUserDetailPage';
+import AdminSettingsPage from './pages/admin/AdminSettingsPage';
 
 // 受保護的路由元件
 const ProtectedRoute = ({ children, adminOnly = false }) => {
@@ -116,6 +117,11 @@ function App() {
           <Route path="/admin/users/new" element={
             <ProtectedRoute adminOnly={true}>
               <AdminUserDetailPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/settings" element={
+            <ProtectedRoute adminOnly={true}>
+              <AdminSettingsPage />
             </ProtectedRoute>
           } />
         </Routes>
