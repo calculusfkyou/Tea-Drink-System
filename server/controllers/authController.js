@@ -320,3 +320,209 @@ export const changePassword = async (req, res) => {
   }
 };
 
+// 添加以下管理員功能到現有的 authController.js 文件
+
+// 管理員 - 獲取所有用戶
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.findAll({
+      attributes: { exclude: ['password'] },
+      order: [['createdAt', 'DESC']]
+    });
+
+    return res.status(200).json({
+      status: 'success',
+      results: users.length,
+      data: users
+    });
+  } catch (error) {
+    console.error('獲取所有用戶失敗:', error);
+    return res.status(500).json({
+      status: 'error',
+      message: '伺服器錯誤'
+    });
+  }
+};
+
+// 管理員 - 獲取單一用戶資料
+export const getUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findByPk(id, {
+      attributes: { exclude: ['password'] }
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        status: 'fail',
+        message: '找不到此用戶'
+      });
+    }
+
+    return res.status(200).json({
+      status: 'success',
+      data: user
+    });
+  } catch (error) {
+    console.error('獲取用戶資料失敗:', error);
+    return res.status(500).json({
+      status: 'error',
+      message: '伺服器錯誤'
+    });
+  }
+};
+
+// 管理員 - 創建新用戶
+export const createUser = async (req, res) => {
+  try {
+    const { name, email, password, phone, role, isVerified } = req.body;
+
+    // 檢查必填欄位
+    if (!name || !email || !password) {
+      return res.status(400).json({
+        status: 'fail',
+        message: '姓名、電子郵件和密碼為必填欄位'
+      });
+    }
+
+    // 檢查電子郵件是否已被使用
+    const existingUser = await User.findOne({ where: { email } });
+    if (existingUser) {
+      return res.status(409).json({
+        status: 'fail',
+        message: '此電子郵件已被註冊'
+      });
+    }
+
+    // 加密密碼
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // 創建用戶
+    const newUser = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      phone: phone || null,
+      role: role || 'user',
+      isVerified: isVerified || false
+    });
+
+    // 移除密碼後返回用戶資訊
+    const userWithoutPassword = { ...newUser.toJSON() };
+    delete userWithoutPassword.password;
+
+    return res.status(201).json({
+      status: 'success',
+      message: '用戶創建成功',
+      data: userWithoutPassword
+    });
+  } catch (error) {
+    console.error('創建用戶失敗:', error);
+    return res.status(500).json({
+      status: 'error',
+      message: '伺服器錯誤'
+    });
+  }
+};
+
+// 管理員 - 更新用戶資料
+export const updateUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, email, phone, role, isVerified, password } = req.body;
+
+    // 檢查用戶是否存在
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res.status(404).json({
+        status: 'fail',
+        message: '找不到此用戶'
+      });
+    }
+
+    // 檢查電子郵件是否已被其他用戶使用
+    if (email && email !== user.email) {
+      const existingUser = await User.findOne({ where: { email } });
+      if (existingUser) {
+        return res.status(400).json({
+          status: 'fail',
+          message: '此電子郵件已被其他用戶使用'
+        });
+      }
+    }
+
+    // 準備更新資料
+    const updateData = {
+      name: name || user.name,
+      email: email || user.email,
+      phone: phone !== undefined ? phone : user.phone,
+      role: role || user.role,
+      isVerified: isVerified !== undefined ? isVerified : user.isVerified
+    };
+
+    // 如果有提供密碼，則更新密碼
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      updateData.password = await bcrypt.hash(password, salt);
+    }
+
+    // 更新用戶資料
+    await user.update(updateData);
+
+    // 重新獲取更新後的用戶資料
+    const updatedUser = await User.findByPk(id, {
+      attributes: { exclude: ['password'] }
+    });
+
+    return res.status(200).json({
+      status: 'success',
+      message: '用戶資料已更新',
+      data: updatedUser
+    });
+  } catch (error) {
+    console.error('更新用戶資料失敗:', error);
+    return res.status(500).json({
+      status: 'error',
+      message: '伺服器錯誤'
+    });
+  }
+};
+
+// 管理員 - 刪除用戶
+export const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // 檢查用戶是否存在
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res.status(404).json({
+        status: 'fail',
+        message: '找不到此用戶'
+      });
+    }
+
+    // 不允許刪除主要管理員帳戶
+    if (user.role === 'admin' && user.email === 'admin@example.com') {
+      return res.status(403).json({
+        status: 'fail',
+        message: '不可刪除主管理員帳戶'
+      });
+    }
+
+    // 刪除用戶
+    await user.destroy();
+
+    return res.status(200).json({
+      status: 'success',
+      message: '用戶已刪除'
+    });
+  } catch (error) {
+    console.error('刪除用戶失敗:', error);
+    return res.status(500).json({
+      status: 'error',
+      message: '伺服器錯誤'
+    });
+  }
+};
