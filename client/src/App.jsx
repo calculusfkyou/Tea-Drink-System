@@ -96,6 +96,11 @@ function App() {
               <AdminProductEditPage />
             </ProtectedRoute>
           } />
+          <Route path="/admin/products/edit/:productId" element={
+            <ProtectedRoute adminOnly={true}>
+              <AdminProductEditPage />
+            </ProtectedRoute>
+          } />
         </Routes>
       </div>
     </BrowserRouter>
