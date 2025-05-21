@@ -58,10 +58,10 @@ const startServer = async () => {
     console.log('資料庫已同步');
 
     // 初始化產品資料（只在需要時執行）
-    await initializeProducts();
-    await initializeStores();
-    await initializeNews();
-    console.log('資料已檢查/初始化');
+    // await initializeProducts();
+    // await initializeStores();
+    // await initializeNews();
+    // console.log('資料已檢查/初始化');
 
     // 啟動伺服器
     app.listen(PORT, () => {

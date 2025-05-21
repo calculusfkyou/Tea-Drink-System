@@ -14,6 +14,37 @@ import CheckoutPage from './pages/CheckoutPage';
 import OrderSuccessPage from './pages/OrderSuccessPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import LoginPage from './pages/auth/LoginPage';
+import AdminDashboardPage from './pages/admin/AdminDashboardPage';
+import AdminOrdersPage from './pages/admin/AdminOrdersPage';
+import AdminOrderDetailPage from './pages/admin/AdminOrderDetailPage';
+
+// 受保護的路由元件
+const ProtectedRoute = ({ children, adminOnly = false }) => {
+  // 從 localStorage 獲取用戶資訊
+  const userJSON = localStorage.getItem('userDisplay');
+  let user = null;
+
+  try {
+    if (userJSON) {
+      user = JSON.parse(userJSON);
+    }
+  } catch (error) {
+    console.error('解析用戶資訊失敗:', error);
+  }
+
+  const isAuthenticated = !!user;
+  const isAdmin = isAuthenticated && user.role === 'admin';
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (adminOnly && !isAdmin) {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
+};
 
 function App() {
   return (
@@ -36,6 +67,23 @@ function App() {
           <Route path="/login" element={<LoginPage />} /> {/* 新增登入路由 */}
           <Route path="*" element={<NotFoundPage />} />
           {/* Add other routes here */}
+
+          {/* 管理員頁面 */}
+          <Route path="/admin/dashboard" element={
+            <ProtectedRoute adminOnly={true}>
+              <AdminDashboardPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/orders" element={
+            <ProtectedRoute adminOnly={true}>
+              <AdminOrdersPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/orders/:orderId" element={
+            <ProtectedRoute adminOnly={true}>
+              <AdminOrderDetailPage />
+            </ProtectedRoute>
+          } />
         </Routes>
       </div>
     </BrowserRouter>

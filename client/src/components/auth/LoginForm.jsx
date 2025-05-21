@@ -92,7 +92,7 @@ export function LoginForm() {
 
       console.log('登入成功:', data);
 
-      // 安全地儲存令牌 (將在下面的安全改進提到)
+      // 安全地儲存令牌
       if (data.data && data.data.token) {
         // 使用安全的方式存儲 token
         securelyStoreToken(data.data.token);
@@ -106,15 +106,20 @@ export function LoginForm() {
             avatar: data.data.user.avatar, // 確保頭像資訊被儲存
             role: data.data.user.role
           }));
+
+          // 根據用戶角色導向不同頁面
+          if (data.data.user.role === 'admin') {
+            // 管理員導向到儀表板
+            navigate('/admin/dashboard');
+            return; // 提前返回，不執行後面的代碼
+          }
         }
       } else {
         console.error('未收到預期的令牌或用戶資料');
       }
 
-      // 登入成功後導航到首頁或指定的重定向頁面
+      // 非管理員用戶導航到首頁或指定的重定向頁面
       const redirectTo = location.state?.from?.pathname || '/';
-
-      setIsSubmitting(false);
       navigate(redirectTo);
 
     } catch (error) {
@@ -128,6 +133,7 @@ export function LoginForm() {
       }
 
       setSubmitError(errorMessage);
+    } finally {
       setIsSubmitting(false);
     }
   };
@@ -163,6 +169,7 @@ export function LoginForm() {
         <FormInput
           type="email"
           id="email"
+          name="email"
           label="電子郵件"
           value={formData.email}
           onChange={handleChange}

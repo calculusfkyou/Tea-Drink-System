@@ -114,15 +114,28 @@ export const getOrderById = async (req, res) => {
   try {
     const { id } = req.params;
     const userId = req.user.id;
+    const userRole = req.user.role;
+
+    // 構建基本查詢條件
+    const whereClause = { id };
+
+    // 如果不是管理員或經理，則只能查看自己的訂單
+    if (userRole !== 'admin' && userRole !== 'manager') {
+      whereClause.userId = userId;
+    }
 
     const order = await Order.findOne({
-      where: { id, userId },
+      where: whereClause,
       include: [{
         model: OrderItem,
         include: [{
           model: Product,
           attributes: ['id', 'name', 'image']
         }]
+      },
+      {
+        model: User,
+        attributes: ['id', 'name', 'email', 'phone']
       }]
     });
 
@@ -133,9 +146,13 @@ export const getOrderById = async (req, res) => {
       });
     }
 
+    // 添加用戶名稱到返回數據中，方便前端顯示
+    const orderData = order.get({ plain: true });
+    orderData.userName = orderData.User ? orderData.User.name : '未知用戶';
+
     return res.status(200).json({
       status: 'success',
-      data: order
+      data: orderData
     });
   } catch (error) {
     console.error('獲取訂單詳情時發生錯誤:', error);
@@ -185,6 +202,91 @@ export const cancelOrder = async (req, res) => {
     return res.status(500).json({
       status: 'error',
       message: '取消訂單失敗',
+      error: error.message
+    });
+  }
+};
+
+// 獲取所有訂單 (管理員用)
+export const getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'name', 'email', 'phone']
+        },
+        {
+          model: OrderItem
+        }
+      ],
+      order: [['createdAt', 'DESC']]
+    });
+
+    // 為每一個訂單添加用戶名稱，方便前端顯示
+    const ordersWithUserName = orders.map(order => {
+      const plainOrder = order.get({ plain: true });
+      return {
+        ...plainOrder,
+        userName: plainOrder.User ? plainOrder.User.name : '未知用戶'
+      };
+    });
+
+    return res.status(200).json({
+      status: 'success',
+      data: ordersWithUserName
+    });
+  } catch (error) {
+    console.error('獲取所有訂單時發生錯誤:', error);
+    return res.status(500).json({
+      status: 'error',
+      message: '獲取訂單失敗',
+      error: error.message
+    });
+  }
+};
+
+// 更新訂單狀態 (管理員用)
+export const updateOrderStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status, note } = req.body;
+
+    const order = await Order.findByPk(id);
+
+    if (!order) {
+      return res.status(404).json({
+        status: 'fail',
+        message: '找不到此訂單'
+      });
+    }
+
+    // 更新訂單狀態
+    order.status = status;
+    await order.save();
+
+    // 記錄狀態變更 (這部分可選，如果您要實現訂單狀態歷史記錄可以添加)
+    // const statusHistory = [...(order.statusHistory || []), {
+    //   status,
+    //   note: note || '',
+    //   timestamp: new Date(),
+    //   updatedBy: req.user.id
+    // }];
+    // await Order.update({ statusHistory }, { where: { id } });
+
+    return res.status(200).json({
+      status: 'success',
+      message: '訂單狀態已更新',
+      data: {
+        id: order.id,
+        status: order.status
+      }
+    });
+  } catch (error) {
+    console.error('更新訂單狀態時發生錯誤:', error);
+    return res.status(500).json({
+      status: 'error',
+      message: '更新訂單狀態失敗',
       error: error.message
     });
   }
