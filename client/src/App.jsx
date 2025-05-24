@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { useEffect } from 'react';
 import Home from './pages/Home'
 import ContactPage from './pages/ContactPage'; // 匯入 ContactPage
 import ProductsPage from './pages/ProductsPage'; // 匯入 ProductsPage
@@ -52,6 +53,51 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
 };
 
 function App() {
+  useEffect(() => {
+    // 只在開發環境執行
+    if (process.env.NODE_ENV === 'development') {
+      // 獲取當前頁面加載的時間戳
+      const pageLoadTime = Date.now();
+
+      // 嘗試獲取上次伺服器啟動時間
+      const lastServerStartTime = parseInt(localStorage.getItem('devServerStartTime') || '0');
+
+      // 檢查是否是新的伺服器啟動 (時間差超過5秒或首次啟動)
+      const isNewServerStart = !lastServerStartTime || (pageLoadTime - lastServerStartTime > 5000);
+
+      // 如果是新的伺服器啟動，則清除所有資料
+      if (isNewServerStart) {
+        console.log('[開發模式] 檢測到伺服器重啟，自動清除登入狀態...');
+
+        // 清除所有認證相關資料
+        localStorage.removeItem('userDisplay');
+        localStorage.removeItem('tokenExpiry');
+        localStorage.removeItem('cart');
+        localStorage.removeItem('checkoutItems');
+        localStorage.removeItem('socialLinks');
+        localStorage.removeItem('resetCompletedFlag'); // 清除舊的重置標記
+
+        // 清除 cookie (呼叫後端登出端點)
+        fetch('http://localhost:5000/api/auth/logout', {
+          method: 'GET',
+          credentials: 'include',
+        }).catch(err => console.error('登出 API 呼叫失敗:', err));
+
+        // 觸發自定義事件通知其他元件狀態已更改
+        window.dispatchEvent(new Event('authStateChanged'));
+
+        // 儲存新的伺服器啟動時間
+        localStorage.setItem('devServerStartTime', pageLoadTime.toString());
+
+        // 重新載入頁面以確保所有狀態都被重置
+        console.log('[開發模式] 執行頁面重載...');
+        setTimeout(() => {
+          window.location.reload();
+        }, 100);
+      }
+    }
+  }, []); // 空依賴陣列，表示只在元件掛載時執行一次
+
   return (
     <BrowserRouter>
       <div className="App">
