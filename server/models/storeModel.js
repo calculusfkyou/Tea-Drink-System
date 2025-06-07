@@ -73,11 +73,16 @@ const Store = sequelize.define('Store', {
     type: DataTypes.BOOLEAN,
     defaultValue: true,
     comment: '是否支援線上訂餐'
+  },
+  isHidden: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+    comment: '是否隱藏此門市'
   }
 }, {
   tableName: 'stores',
   timestamps: true,
-  // 使用蛇形命名法 (created_at 而非 createdAt)
   underscored: true,
   comment: '門市資訊表'
 });

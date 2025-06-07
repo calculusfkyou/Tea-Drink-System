@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FiPackage, FiGrid, FiUsers, FiSettings, FiClock, FiTrendingUp, FiShoppingBag, FiX } from 'react-icons/fi';
+import { FiPackage, FiGrid, FiUsers, FiSettings, FiClock, FiTrendingUp, FiShoppingBag, FiX, FiFileText, FiMapPin } from 'react-icons/fi';
 import AdminLayout from '../../components/admin/AdminLayout';
 
 export default function AdminDashboardPage() {
@@ -162,6 +162,14 @@ export default function AdminDashboardPage() {
         <Link to="/admin/users" className="bg-white p-6 rounded-lg shadow text-center hover:bg-gray-50 transition-colors">
           <FiUsers className="text-3xl text-[#5a6440] mx-auto mb-2" />
           <h3 className="font-medium">會員管理</h3>
+        </Link>
+        <Link to="/admin/news" className="bg-white p-6 rounded-lg shadow text-center hover:bg-gray-50 transition-colors">
+          <FiFileText className="text-3xl text-[#5a6440] mx-auto mb-2" />
+          <h3 className="font-medium">新聞管理</h3>
+        </Link>
+        <Link to="/admin/stores" className="bg-white p-6 rounded-lg shadow text-center hover:bg-gray-50 transition-colors">
+          <FiMapPin className="text-3xl text-[#5a6440] mx-auto mb-2" />
+          <h3 className="font-medium">門市管理</h3>
         </Link>
         <Link to="/admin/settings" className="bg-white p-6 rounded-lg shadow text-center hover:bg-gray-50 transition-colors">
           <FiSettings className="text-3xl text-[#5a6440] mx-auto mb-2" />

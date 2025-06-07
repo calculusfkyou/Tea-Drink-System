@@ -1,40 +1,60 @@
-import bcrypt from 'bcrypt';
-import { User } from './models/userModel.js';
-import sequelize from './config/database.js';
+// 創建文件：server/scripts/removeEmailIndexMigration.js
+import sequelize from '../config/database.js';
 
-const createAdmin = async () => {
+const removeEmailIndexWithMigration = async () => {
   try {
-    // 連接資料庫
+    console.log('正在連接資料庫...');
     await sequelize.authenticate();
-    console.log('資料庫連線成功');
+    console.log('資料庫連接成功');
 
-    // 檢查是否已有管理員帳號
-    const existingAdmin = await User.findOne({ where: { email: 'admin@example.com' } });
+    // 使用 Sequelize 的 QueryInterface 來刪除索引
+    const queryInterface = sequelize.getQueryInterface();
 
-    if (existingAdmin) {
-      console.log('管理員帳號已存在，無需重新創建');
-      process.exit(0);
+    console.log('正在檢查索引是否存在...');
+
+    // 先檢查索引是否存在
+    const indexes = await queryInterface.showIndex('Users');
+    const emailIndexExists = indexes.some(index =>
+      index.name === 'users_email_unique' ||
+      index.name === 'email' ||
+      (index.unique && index.fields.some(field => field.attribute === 'email'))
+    );
+
+    if (emailIndexExists) {
+      console.log('找到 email 索引，正在刪除...');
+
+      // 嘗試刪除可能的索引名稱
+      const possibleIndexNames = ['users_email_unique', 'email', 'Users_email_unique'];
+
+      for (const indexName of possibleIndexNames) {
+        try {
+          await queryInterface.removeIndex('Users', indexName);
+          console.log(`✅ 索引 ${indexName} 已成功刪除`);
+          break;
+        } catch (error) {
+          if (!error.message.includes("doesn't exist")) {
+            console.log(`索引 ${indexName} 不存在，嘗試下一個...`);
+          }
+        }
+      }
+    } else {
+      console.log('⚠️  未找到 email 相關的唯一索引');
     }
 
-    // 將密碼加密
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash('admin', salt);
-
-    // 創建管理員帳號
-    const admin = await User.create({
-      name: 'admin',
-      email: 'admin@example.com',
-      password: hashedPassword,
-      isVerified: true,
-      role: 'admin'
+    // 顯示當前所有索引
+    console.log('\n當前資料表索引:');
+    const currentIndexes = await queryInterface.showIndex('Users');
+    currentIndexes.forEach(index => {
+      console.log(`- ${index.name}: ${index.fields.map(f => f.attribute).join(', ')} ${index.unique ? '(唯一)' : ''}`);
     });
 
-    console.log('管理員帳號創建成功:', admin.email);
-    process.exit(0);
   } catch (error) {
-    console.error('創建管理員帳號失敗:', error);
-    process.exit(1);
+    console.error('❌ 操作失敗:', error.message);
+  } finally {
+    await sequelize.close();
+    console.log('\n資料庫連接已關閉');
+    process.exit();
   }
 };
 
-createAdmin();
+removeEmailIndexWithMigration();

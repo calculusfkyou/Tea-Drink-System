@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FiPackage, FiGrid, FiUsers, FiSettings, FiLogOut, FiMenu, FiX, FiHome } from 'react-icons/fi';
+import { FiPackage, FiGrid, FiUsers, FiSettings, FiLogOut, FiMenu, FiX, FiHome, FiFileText, FiMapPin } from 'react-icons/fi';
 
 export default function AdminLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -37,6 +37,8 @@ export default function AdminLayout({ children }) {
     { path: '/admin/orders', icon: <FiPackage />, label: '訂單管理' },
     { path: '/admin/products', icon: <FiGrid />, label: '產品管理' },
     { path: '/admin/users', icon: <FiUsers />, label: '會員管理' },
+    { path: '/admin/news', icon: <FiFileText />, label: '新聞管理' },
+    { path: '/admin/stores', icon: <FiMapPin />, label: '門市管理' },
     { path: '/admin/settings', icon: <FiSettings />, label: '網站設定' },
   ];
 

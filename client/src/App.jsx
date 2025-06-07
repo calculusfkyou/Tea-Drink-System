@@ -23,6 +23,10 @@ import AdminProductsPage from './pages/admin/AdminProductsPage';
 import AdminUsersPage from './pages/admin/AdminUsersPage';
 import AdminUserDetailPage from './pages/admin/AdminUserDetailPage';
 import AdminSettingsPage from './pages/admin/AdminSettingsPage';
+import AdminNewsPage from './pages/admin/AdminNewsPage';
+import AdminNewsEditPage from './pages/admin/AdminNewsEditPage';
+import AdminStoresPage from './pages/admin/AdminStoresPage';
+import AdminStoreEditPage from './pages/admin/AdminStoreEditPage';
 
 // 受保護的路由元件
 const ProtectedRoute = ({ children, adminOnly = false }) => {
@@ -128,6 +132,36 @@ function App() {
           <Route path="/admin/settings" element={
             <ProtectedRoute adminOnly={true}>
               <AdminSettingsPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/news" element={
+            <ProtectedRoute adminOnly={true}>
+              <AdminNewsPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/news/new" element={
+            <ProtectedRoute adminOnly={true}>
+              <AdminNewsEditPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/news/edit/:newsId" element={
+            <ProtectedRoute adminOnly={true}>
+              <AdminNewsEditPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/stores" element={
+            <ProtectedRoute adminOnly={true}>
+              <AdminStoresPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/stores/new" element={
+            <ProtectedRoute adminOnly={true}>
+              <AdminStoreEditPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/stores/edit/:storeId" element={
+            <ProtectedRoute adminOnly={true}>
+              <AdminStoreEditPage />
             </ProtectedRoute>
           } />
         </Routes>

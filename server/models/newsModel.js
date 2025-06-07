@@ -44,6 +44,11 @@ export const News = sequelize.define('News', {
     type: DataTypes.JSON,
     allowNull: true,
     defaultValue: []
+  },
+  isHidden: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
   }
 }, {
   tableName: 'news',

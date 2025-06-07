@@ -54,7 +54,7 @@ const startServer = async () => {
     console.log('MySQL connected successfully');
 
     // 資料庫同步
-    await sequelize.sync({ alter: false });
+    await sequelize.sync({ alter: true });
     console.log('資料庫已同步');
 
     // 初始化產品資料（只在需要時執行）
