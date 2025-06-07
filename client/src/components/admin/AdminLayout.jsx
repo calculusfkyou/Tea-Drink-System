@@ -75,12 +75,18 @@ export default function AdminLayout({ children }) {
               <span className="mr-3">{item.icon}</span>
               {item.label}
             </Link>
-          ))}
-        </nav>
-        <div className="absolute bottom-0 w-full p-4">
+          ))}        </nav>
+        <div className="absolute bottom-0 w-full p-4 space-y-2">
+          <Link
+            to="/"
+            className="flex items-center w-full px-4 py-2 text-sm text-white hover:bg-[#47512f] rounded transition-colors"
+          >
+            <FiHome className="mr-2" />
+            回到使用者頁面
+          </Link>
           <button
             onClick={handleLogout}
-            className="flex items-center w-full px-4 py-2 text-sm text-white hover:bg-[#47512f] rounded"
+            className="flex items-center w-full px-4 py-2 text-sm text-white hover:bg-[#47512f] rounded transition-colors"
           >
             <FiLogOut className="mr-2" />
             登出
