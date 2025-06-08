@@ -1,4 +1,3 @@
-// 創建文件：client/src/hooks/useScrollAnimation.js
 import { useEffect, useRef, useState } from 'react';
 
 export const useScrollAnimation = (threshold = 0.1) => {
