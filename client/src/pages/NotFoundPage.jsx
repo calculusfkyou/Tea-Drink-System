@@ -1,10 +1,10 @@
 import React from 'react';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
-import { NotFoundHeader } from '../components/notFound/NotFoundHeader';
-import { NotFoundImage } from '../components/notFound/NotFoundImage';
-import { NotFoundMessage } from '../components/notFound/NotFoundMessage';
-import { NotFoundAction } from '../components/notFound/NotFoundAction';
+import { NotFoundHeader } from '../components/notfound/NotFoundHeader';
+import { NotFoundImage } from '../components/notfound/NotFoundImage';
+import { NotFoundMessage } from '../components/notfound/NotFoundMessage';
+import { NotFoundAction } from '../components/notfound/NotFoundAction';
 
 export default function NotFoundPage() {
   return (
