@@ -36,7 +36,7 @@ export default function ProductsPage() {
     const fetchProducts = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('http://localhost:5000/api/products/categories');
+        const response = await fetch('https://tea-system.sdpmlab.org/api/products/categories');
         const result = await response.json();
 
         if (result.status === 'success') {
@@ -78,7 +78,7 @@ export default function ProductsPage() {
   // 處理產品點擊
   const handleProductClick = async (productId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/products/${productId}`);
+      const response = await fetch(`https://tea-system.sdpmlab.org/api/products/${productId}`);
       const result = await response.json();
 
       if (result.status === 'success') {

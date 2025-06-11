@@ -16,7 +16,7 @@ export default function AdminOrdersPage() {
     const fetchOrders = async () => {
       try {
         setLoading(true);
-        const response = await fetch('http://localhost:5000/api/orders/all', {
+        const response = await fetch('https://tea-system.sdpmlab.org/api/orders/all', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

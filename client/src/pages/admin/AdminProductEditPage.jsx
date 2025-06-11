@@ -72,7 +72,7 @@ export default function AdminProductEditPage() {
 
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/products/${productId}`, {
+        const response = await fetch(`https://tea-system.sdpmlab.org/api/products/${productId}`, {
           credentials: 'include'
         });
 
@@ -188,8 +188,8 @@ export default function AdminProductEditPage() {
       setSaving(true);
 
       const url = isNewProduct
-        ? 'http://localhost:5000/api/products'
-        : `http://localhost:5000/api/products/${productId}`;
+        ? 'https://tea-system.sdpmlab.org/api/products'
+        : `https://tea-system.sdpmlab.org/api/products/${productId}`;
 
       const method = isNewProduct ? 'POST' : 'PUT';
 

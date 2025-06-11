@@ -61,7 +61,7 @@ export default function UserInfoSection({ user, setUser }) {
       const formData = new FormData();
       formData.append('avatar', file);
 
-      const response = await fetch('http://localhost:5000/api/auth/avatar', {
+      const response = await fetch('https://tea-system.sdpmlab.org/api/auth/avatar', {
         method: 'POST',
         credentials: 'include',
         body: formData
@@ -115,7 +115,7 @@ export default function UserInfoSection({ user, setUser }) {
     setSuccessMessage('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/profile', {
+      const response = await fetch('https://tea-system.sdpmlab.org/api/auth/profile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'

@@ -73,7 +73,7 @@ export default function AdminUsersPage() {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:5000/api/auth/users', {
+      const response = await fetch('https://tea-system.sdpmlab.org/api/auth/users', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ export default function AdminUsersPage() {
   // 處理刪除會員
   const handleDeleteUser = async (userId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/auth/users/${userId}`, {
+      const response = await fetch(`https://tea-system.sdpmlab.org/api/auth/users/${userId}`, {
         method: 'DELETE',
         credentials: 'include'
       });

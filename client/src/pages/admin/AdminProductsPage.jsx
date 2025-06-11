@@ -45,7 +45,7 @@ export default function AdminProductsPage() {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const response = await fetch('http://localhost:5000/api/products/admin/all', {
+        const response = await fetch('https://tea-system.sdpmlab.org/api/products/admin/all', {
           credentials: 'include'
         });
 
@@ -69,7 +69,7 @@ export default function AdminProductsPage() {
   // 處理產品狀態切換
   const handleToggleAvailability = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/products/${id}/toggle`, {
+      const response = await fetch(`https://tea-system.sdpmlab.org/api/products/${id}/toggle`, {
         method: 'PATCH',
         credentials: 'include',
         headers: {
@@ -102,7 +102,7 @@ export default function AdminProductsPage() {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/products/${id}`, {
+      const response = await fetch(`https://tea-system.sdpmlab.org/api/products/${id}`, {
         method: 'DELETE',
         credentials: 'include'
       });

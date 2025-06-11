@@ -12,7 +12,7 @@ export default function ProfileHeader({ user: propUser }) {
       // 移除可能存在的服務器前綴
       if (fixedUser.avatar.includes('localhost:5000data:')) {
         console.log("修復頭像URL - 移除服務器前綴");
-        fixedUser.avatar = fixedUser.avatar.replace('http://localhost:5000', '');
+        fixedUser.avatar = fixedUser.avatar.replace('https://tea-system.sdpmlab.org', '');
         fixedUser.avatar = fixedUser.avatar.replace('https://localhost:5000', '');
       }
 
@@ -73,7 +73,7 @@ export default function ProfileHeader({ user: propUser }) {
               src={
                 // 強制移除URL前綴
                 user.avatar?.includes('localhost:5000data:')
-                  ? user.avatar.replace('http://localhost:5000', '').replace('https://localhost:5000', '')
+                  ? user.avatar.replace('https://tea-system.sdpmlab.org', '').replace('https://localhost:5000', '')
                   : !user.avatar?.startsWith('data:') && user.avatar?.includes('data:')
                     ? 'data:' + user.avatar.split('data:')[1]
                     : user.avatar

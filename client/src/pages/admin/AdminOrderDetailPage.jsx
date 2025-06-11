@@ -74,7 +74,7 @@ export default function AdminOrderDetailPage() {
     const fetchOrderDetail = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:5000/api/orders/${orderId}`, {
+        const response = await fetch(`https://tea-system.sdpmlab.org/api/orders/${orderId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -113,7 +113,7 @@ export default function AdminOrderDetailPage() {
 
     try {
       setUpdatingStatus(true);
-      const response = await fetch(`http://localhost:5000/api/orders/${orderId}/status`, {
+      const response = await fetch(`https://tea-system.sdpmlab.org/api/orders/${orderId}/status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

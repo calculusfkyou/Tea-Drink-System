@@ -48,7 +48,7 @@ export function NavbarUserMenu() {
   // 處理登出
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/auth/logout', {
+      const response = await fetch('https://tea-system.sdpmlab.org/api/auth/logout', {
         method: 'GET',
         credentials: 'include'
       });

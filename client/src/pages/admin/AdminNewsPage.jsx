@@ -73,7 +73,7 @@ export default function AdminNewsPage() {
   const fetchNews = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:5000/api/news/admin/all', {
+      const response = await fetch('https://tea-system.sdpmlab.org/api/news/admin/all', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ export default function AdminNewsPage() {
   // 處理刪除新聞
   const handleDeleteNews = async (newsId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/news/admin/${newsId}`, {
+      const response = await fetch(`https://tea-system.sdpmlab.org/api/news/admin/${newsId}`, {
         method: 'DELETE',
         credentials: 'include'
       });
@@ -121,7 +121,7 @@ export default function AdminNewsPage() {
   // 處理切換顯示狀態
   const handleToggleVisibility = async (newsId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/news/admin/${newsId}/toggle`, {
+      const response = await fetch(`https://tea-system.sdpmlab.org/api/news/admin/${newsId}/toggle`, {
         method: 'PATCH',
         credentials: 'include'
       });

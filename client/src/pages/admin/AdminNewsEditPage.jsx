@@ -67,7 +67,7 @@ export default function AdminNewsEditPage() {
   const fetchNewsData = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:5000/api/news/${newsId}`, {
+      const response = await fetch(`https://tea-system.sdpmlab.org/api/news/${newsId}`, {
         credentials: 'include'
       });
 
@@ -119,8 +119,8 @@ export default function AdminNewsEditPage() {
       setSaving(true);
 
       const url = isNewNews
-        ? 'http://localhost:5000/api/news/admin'
-        : `http://localhost:5000/api/news/admin/${newsId}`;
+        ? 'https://tea-system.sdpmlab.org/api/news/admin'
+        : `https://tea-system.sdpmlab.org/api/news/admin/${newsId}`;
 
       const method = isNewNews ? 'POST' : 'PUT';
 

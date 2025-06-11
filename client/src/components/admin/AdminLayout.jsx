@@ -9,7 +9,7 @@ export default function AdminLayout({ children }) {
 
   const handleLogout = () => {
     // 執行登出操作
-    fetch('http://localhost:5000/api/auth/logout', {
+    fetch('https://tea-system.sdpmlab.org/api/auth/logout', {
       method: 'GET',
       credentials: 'include',
     }).then(response => {

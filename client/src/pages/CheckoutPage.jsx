@@ -58,7 +58,7 @@ export default function CheckoutPage() {
     // 獲取用戶地址
     const fetchAddresses = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/addresses', {
+        const response = await fetch('https://tea-system.sdpmlab.org/api/addresses', {
           method: 'GET',
           credentials: 'include'
         });
@@ -99,7 +99,7 @@ export default function CheckoutPage() {
     const fetchStores = async () => {
       try {
         // 修改為獲取所有門市數據
-        const response = await fetch('http://localhost:5000/api/stores?limit=100');
+        const response = await fetch('https://tea-system.sdpmlab.org/api/stores?limit=100');
 
         if (response.ok) {
           const result = await response.json();
@@ -174,7 +174,7 @@ export default function CheckoutPage() {
       console.log('發送地址數據:', addressData);
 
       // 發送請求到後端
-      const response = await fetch('http://localhost:5000/api/addresses', {
+      const response = await fetch('https://tea-system.sdpmlab.org/api/addresses', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -249,7 +249,7 @@ export default function CheckoutPage() {
       };
 
       // 發送訂單到後端
-      const response = await fetch('http://localhost:5000/api/orders', {
+      const response = await fetch('https://tea-system.sdpmlab.org/api/orders', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

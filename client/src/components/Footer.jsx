@@ -18,7 +18,7 @@ export function Footer() {
         setSocialLinks(JSON.parse(savedLinks));
       }
       // 實際情境:
-      // const response = await fetch('http://localhost:5000/api/settings/social');
+      // const response = await fetch('https://tea-system.sdpmlab.org/api/settings/social');
       // if (response.ok) {
       //   const data = await response.json();
       //   setSocialLinks(data);

@@ -25,7 +25,7 @@ export default function ProfilePage() {
     // 從後端獲取用戶資料
     const fetchUserData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/auth/me', {
+        const response = await fetch('https://tea-system.sdpmlab.org/api/auth/me', {
           method: 'GET',
           credentials: 'include',
         });
@@ -56,7 +56,7 @@ export default function ProfilePage() {
   // 添加登出功能
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/auth/logout', {
+      const response = await fetch('https://tea-system.sdpmlab.org/api/auth/logout', {
         method: 'GET',
         credentials: 'include',
       });

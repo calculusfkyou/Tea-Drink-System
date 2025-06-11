@@ -55,7 +55,7 @@ export default function AdminUserDetailPage() {
     const fetchUserData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:5000/api/auth/users/${userId}`, {
+        const response = await fetch(`https://tea-system.sdpmlab.org/api/auth/users/${userId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -158,8 +158,8 @@ export default function AdminUserDetailPage() {
       }
 
       const url = isNewUser
-        ? 'http://localhost:5000/api/auth/users'
-        : `http://localhost:5000/api/auth/users/${userId}`;
+        ? 'https://tea-system.sdpmlab.org/api/auth/users'
+        : `https://tea-system.sdpmlab.org/api/auth/users/${userId}`;
 
       const method = isNewUser ? 'POST' : 'PUT';
 
@@ -204,7 +204,7 @@ export default function AdminUserDetailPage() {
   // 發送重設密碼信
   const handleSendResetEmail = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/auth/reset-password-request', {
+      const response = await fetch('https://tea-system.sdpmlab.org/api/auth/reset-password-request', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

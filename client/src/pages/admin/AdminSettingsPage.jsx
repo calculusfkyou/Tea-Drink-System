@@ -79,7 +79,7 @@ export default function AdminSettingsPage() {
       try {
         setLoading(true);
         // 在真實情境中，這會是一個 API 請求
-        // const response = await fetch('http://localhost:5000/api/settings', {
+        // const response = await fetch('https://tea-system.sdpmlab.org/api/settings', {
         //   credentials: 'include'
         // });
 
@@ -244,7 +244,7 @@ export default function AdminSettingsPage() {
       setSaving(true);
 
       // 在真實情境中，這會是一個 API 請求
-      // const response = await fetch('http://localhost:5000/api/settings', {
+      // const response = await fetch('https://tea-system.sdpmlab.org/api/settings', {
       //   method: 'PUT',
       //   headers: {
       //     'Content-Type': 'application/json'

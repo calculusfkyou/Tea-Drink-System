@@ -16,7 +16,7 @@ export default function StoreDetailPage() {
     const fetchStoreDetail = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get(`http://localhost:5000/api/stores/${id}`);
+        const response = await axios.get(`https://tea-system.sdpmlab.org/api/stores/${id}`);
         setStore(response.data);
       } catch (error) {
         console.error('Error fetching store detail:', error);

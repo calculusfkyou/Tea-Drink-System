@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.3
+    container_name: tea-system-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: tea_system
+    ports:
+      - "3306:3306"
+    volumes:
+      - tea-system:/var/lib/mysql
+
+volumes:
+  tea-system:
+    external: true

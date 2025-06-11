@@ -19,7 +19,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: 'https://tea-system.sdpmlab.org',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -27,7 +27,7 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
   res.send('伺服器運行中 🚀');
 });
 

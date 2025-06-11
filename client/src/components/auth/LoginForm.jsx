@@ -71,7 +71,7 @@ export function LoginForm() {
 
     try {
       // 發送登入請求，告知後端是否勾選「記住我」選項
-      const response = await fetch('http://localhost:5000/api/auth/login', {
+      const response = await fetch('https://tea-system.sdpmlab.org/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include', // 允許跨域請求攜帶 cookies

@@ -297,7 +297,7 @@ npm run test
 
 ### 開發注意事項：
 - 前端開發伺服器：http://localhost:5173
-- 後端 API 伺服器：http://localhost:5000
+- 後端 API 伺服器：https://tea-system.sdpmlab.org
 - 資料庫：MySQL (需自行安裝並設定)
 - 環境變數請參考 .env.example 檔案
 - 詳細的 API 文檔請參考 docs/ 資料夾

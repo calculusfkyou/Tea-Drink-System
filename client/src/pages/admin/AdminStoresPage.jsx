@@ -73,7 +73,7 @@ export default function AdminStoresPage() {
   const fetchStores = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:5000/api/stores/admin/all', {
+      const response = await fetch('https://tea-system.sdpmlab.org/api/stores/admin/all', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ export default function AdminStoresPage() {
   // 處理刪除門市
   const handleDeleteStore = async (storeId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/stores/admin/${storeId}`, {
+      const response = await fetch(`https://tea-system.sdpmlab.org/api/stores/admin/${storeId}`, {
         method: 'DELETE',
         credentials: 'include'
       });
@@ -121,7 +121,7 @@ export default function AdminStoresPage() {
   // 處理切換顯示狀態
   const handleToggleVisibility = async (storeId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/stores/admin/${storeId}/toggle`, {
+      const response = await fetch(`https://tea-system.sdpmlab.org/api/stores/admin/${storeId}/toggle`, {
         method: 'PATCH',
         credentials: 'include'
       });

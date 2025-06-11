@@ -23,11 +23,11 @@ export default function LocationsPage() {
       setIsLoading(true);
       try {
         // 獲取所有地區
-        const regionsResponse = await axios.get('http://localhost:5000/api/stores/regions');
+        const regionsResponse = await axios.get('https://tea-system.sdpmlab.org/api/stores/regions');
         setRegions(regionsResponse.data);
 
         // 獲取門市資料
-        const storesResponse = await axios.get('http://localhost:5000/api/stores', {
+        const storesResponse = await axios.get('https://tea-system.sdpmlab.org/api/stores', {
           params: {
             region: activeRegion !== '全部' ? activeRegion : '',
             page: pagination.page,

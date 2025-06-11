@@ -76,7 +76,7 @@ export default function AdminStoreEditPage() {
   const fetchStoreData = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:5000/api/stores/${storeId}`, {
+      const response = await fetch(`https://tea-system.sdpmlab.org/api/stores/${storeId}`, {
         credentials: 'include'
       });
 
@@ -134,8 +134,8 @@ export default function AdminStoreEditPage() {
       setSaving(true);
 
       const url = isNewStore
-        ? 'http://localhost:5000/api/stores/admin'
-        : `http://localhost:5000/api/stores/admin/${storeId}`;
+        ? 'https://tea-system.sdpmlab.org/api/stores/admin'
+        : `https://tea-system.sdpmlab.org/api/stores/admin/${storeId}`;
 
       const method = isNewStore ? 'POST' : 'PUT';
 
