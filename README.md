@@ -94,16 +94,19 @@ tea-drink-system/
 └── README.md                              # 專案說明文件
 ```
 
+## 🛠️ 環境需求
+- Node.js (v16 以上)
+- MySQL (v8.0 以上)
+- Git
 
 ## 🔧 開發方式(使用方式)
-
-1. **Clone 專案**
+#### 1. **Clone 專案**
 ```bash
 git clone https://github.com/calculusfkyou/Tea-Drink-System.git
 cd tea-drink-system
 ```
 
-2. **安裝前後端套件**
+#### 2. **安裝前後端套件**
 ```bash
 cd server
 npm install
@@ -111,7 +114,7 @@ cd ../client
 npm install
 ```
 
-3. **啟動開發環境**
+#### 3. **啟動開發環境**
 ```bash
 # 啟動後端 (在 server 目錄下)
 cd server
@@ -121,6 +124,41 @@ npm run dev
 cd client
 npm run dev
 ```
+
+#### 4. **初始化資料庫**
+先建立資料庫
+```sql
+CREATE DATABASE tea_drink_system CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+使用 MySQL 命令列匯入 tea_system_backup.sql
+```bash
+mysql -u your_username -p tea_drink_system < tea_system_backup.sql
+```
+
+#### 5. **設定管理員權限**
+請使用者透過註冊的功能註冊管理員與使用者帳號，並將管理員帳號的role調整成"admin"、isVerified欄位調整成1。
+```sql
+-- 方法一：透過 Email 設定
+UPDATE Users 
+SET role = 'admin', isVerified = 1 
+WHERE email = 'your_admin_email@example.com';
+
+-- 方法二：透過用戶 ID 設定（如果您知道用戶 ID）
+UPDATE Users 
+SET role = 'admin', isVerified = 1 
+WHERE id = 用戶ID;
+
+-- 查看所有用戶（確認設定是否成功）
+SELECT id, name, email, role, isVerified FROM Users;
+```
+**設定說明：**
+- `role = 'admin'`：設定為管理員權限
+- `isVerified = 1`：設定為已驗證狀態
+
+#### 6. **完成設定**
+   - 重新登入系統
+   - 管理員帳號現在可以訪問後台管理功能
+   - 訪問 `/admin` 路徑進入管理員介面
 
 ## 📦 使用技術
 
@@ -299,7 +337,7 @@ npm run test
 
 ### 開發注意事項：
 - 前端開發伺服器：http://localhost:5173
-- 後端 API 伺服器：https://tea-system.sdpmlab.org
+- 後端 API 伺服器：http://localhost:5000
 - 資料庫：MySQL (需自行安裝並設定)
 - 環境變數請參考 .env.example 檔案
 - 詳細的 API 文檔請參考 docs/ 資料夾
